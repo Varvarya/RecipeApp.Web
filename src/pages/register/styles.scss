@@ -1,0 +1,11 @@
+@import "./src/styles/_gradients.scss";
+
+.background {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background: theme-gradient('base'), theme-gradient('noise');
+}

@@ -1,0 +1,45 @@
+@import "./src/styles/_colors.scss";
+@import "./src/styles/_sizes.scss";
+@import "../../styles/_typography.scss";
+@import "../../styles/_gradients.scss";
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40%;
+  margin: 0 auto;
+  height: theme-sizes('input-height');
+  background-color: theme-color('accent');
+  box-shadow: theme-shadows('button');
+
+  font-family: theme-fonts('button'), monospace;
+  font-weight: theme-font-weights('button');
+  font-size: theme-font-sizes('button');
+  text-transform: uppercase;
+  color: theme-color('text');
+  text-align: center;
+
+  &.accent {
+    background-color: theme-color('accent');
+
+    &:hover {
+      cursor: pointer;
+      background-color: theme-color('accent-shadow');
+    }
+  }
+
+  &.opposite {
+    background-color: theme-color('opposite');
+
+    &:hover {
+      cursor: pointer;
+      background-color: theme-color('opposite-shadow');
+    }
+  }
+
+  &:active {
+    box-shadow: theme-shadows('button')
+  }
+}
+

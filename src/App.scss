@@ -1,0 +1,28 @@
+@import "./src/styles/_colors.scss";
+@import "./src/styles/_sizes.scss";
+@import "./src/styles/typography";
+
+h1 {
+  font-family: theme-fonts('title'), monospace;
+  font-weight: theme-font-weights('title');
+  font-size: theme-font-sizes('title');
+  text-transform: uppercase;
+  color: theme-color('text');
+  text-align: center;
+  margin: 0 4px;
+}
+
+h3 {
+  font-family: theme-fonts('text'), monospace;
+  font-weight: theme-font-weights('text');
+  font-size: theme-font-sizes('text');
+  color: theme-color('text');
+  text-align: center;
+  cursor: default;
+}
+
+a {
+  color: theme-color('link');
+  text-decoration: underline;
+  cursor: pointer;
+}

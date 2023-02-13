@@ -1,0 +1,52 @@
+@import "./src/styles/_colors.scss";
+@import "./src/styles/_sizes.scss";
+@import "../../styles/_typography.scss";
+@import "../../styles/_gradients.scss";
+
+.input-row {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  column-gap: theme-sizes('small-paper-padding');
+  margin: theme-sizes('small-paper-padding')
+}
+
+.icon {
+  object-fit: contain;
+  width: theme-sizes('big-icon-height');
+  height: theme-sizes('big-icon-height');
+}
+
+.input {
+  display: flex;
+  flex: 1;
+  min-width: 360px;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: theme-shadows('input');
+  border-style: solid;
+  border-color: theme-color('border');
+  border-width: theme-sizes('controls-borders-width');
+  max-height: theme-sizes('input-height');
+  padding: theme-sizes('small-column-gap') theme-sizes('small-paper-padding');
+  font-family: theme-fonts('input'), monospace;
+  font-weight: theme-font-weights('input');
+  font-size: theme-font-sizes('input');
+  color: theme-color('text');
+}
+
+.input-override {
+  flex: 1;
+  border: none;
+  background-color: transparent;
+  font-family: theme-fonts('input'), monospace;
+  font-weight: theme-font-weights('input');
+  font-size: theme-font-sizes('input');
+  color: theme-color('text');
+  outline: none;
+}
+
+.rightIcon {
+  height:theme-sizes('small-icon-height');
+  cursor: pointer;
+}

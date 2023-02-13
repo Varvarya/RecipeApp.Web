@@ -1,0 +1,29 @@
+$base-border-radius: 20px;
+$base-border-width: 3px;
+$thin-border-width: 2px;
+$base-controls-diameter: 20px;
+$base-small-gap: 4px;
+$small-paper-padding: 16px;
+$base-paper-padding: 64px;
+$input-height: 48px;
+$big-icon-height: 48px;
+$big-icon-width: 40px;
+$small-icon-height: 24px;
+
+$default_sizes: (
+        border-radius: $base-border-radius,
+        border-width: $base-border-width,
+        controls-diameter: $base-controls-diameter,
+        controls-borders-width: $thin-border-width,
+        small-column-gap: $base-small-gap,
+        small-paper-padding: $small-paper-padding,
+        base-paper-padding: $base-paper-padding,
+        input-height: $input-height,
+        big-icon-height: $big-icon-height,
+        big-icon-width: $big-icon-width,
+        small-icon-height: $small-icon-height,
+);
+
+@function theme-sizes($key) {
+  @return map-get($default_sizes, $key);
+}
