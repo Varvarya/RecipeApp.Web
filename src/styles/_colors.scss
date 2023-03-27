@@ -2,6 +2,7 @@ $color-base-purple: #4633C9;
 $color-base-green: #94D3AE;
 $color-shadow-green: #40AD6D;
 $color-base-light-pink: #FFE7EF;
+$color-base-light-blue: #D4DDFF;
 $color-base-pink: #DF5CBE;
 $color-base-gray: #DDDDDD;
 $color-gray: #808080;
@@ -18,6 +19,8 @@ $theme-colors: (
         primary: $color-base-purple,
 
         secondary: $color-base-pink,
+
+        light-blue: $color-base-light-blue,
 
         accent: $color-base-green,
         accent-shadow: $color-shadow-green,

@@ -3,8 +3,8 @@ import Eye from '../assets/Icons/Eye.png';
 import ClosedEye from '../assets/Icons/ClosedEye.png';
 
 export const useTogglePasswordVisibility = () => {
-	const [passwordVisibility, setPasswordVisibility] = useState(true);
-	const [rightIcon, setRightIcon] = useState(Eye);
+	const [passwordVisibility, setPasswordVisibility] = useState(false);
+	const [rightIcon, setRightIcon] = useState(ClosedEye);
 
 	const handlePasswordVisibility = () => {
 		if (passwordVisibility) {

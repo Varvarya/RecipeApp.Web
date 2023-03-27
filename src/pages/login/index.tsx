@@ -8,15 +8,16 @@ import Button from '../../components/button';
 import {Link} from 'react-router-dom';
 import {loginAction} from '../../state/loginSlice/actions';
 import { connect } from 'react-redux';
+import {loginModel} from '../../state/loginSlice/requestsModels';
 
 type LoginPageProps ={
-	login: (data: {username: string, password: string}) => void,
+	login: (data: loginModel) => void,
 }
 
 const LoginPage: React.FC<LoginPageProps> = ({login}) => {
-	const [formData, setFormData] = useState({
-		username: 'Varvara Tisheninova',
-		password: 'Password',
+	const [formData, setFormData] = useState<loginModel>({
+		username: '',
+		password: '',
 	});
 
 	const changeInputData = (e: ChangeEvent<HTMLInputElement>) => {

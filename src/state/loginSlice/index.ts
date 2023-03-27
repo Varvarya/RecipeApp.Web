@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {loginAction} from './actions';
+import {loginAction, registrationAction} from './actions';
 import {APIError, APIStatus} from '../types';
 
 type StateType = {
@@ -32,6 +32,17 @@ export const loginSlice = createSlice({
 				state.username = action.payload.userInfo.username;
 			})
 			.addCase(loginAction.rejected, (state, action) => {
+				state.status = APIStatus.REJECTED;
+				state.error = action.payload;
+			})
+			.addCase(registrationAction.pending, (state) => {
+				state.status = APIStatus.PENDING;
+			})
+			.addCase(registrationAction.fulfilled, (state, action) => {
+				state.status = APIStatus.FULFILLED;
+				state.username = action.payload.userInfo.username;
+			})
+			.addCase(registrationAction.rejected, (state, action) => {
 				state.status = APIStatus.REJECTED;
 				state.error = action.payload;
 			});

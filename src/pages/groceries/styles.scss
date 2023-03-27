@@ -1,0 +1,34 @@
+@import "./src/styles/_gradients.scss";
+@import "./src/styles/_colors.scss";
+@import "./src/styles/_sizes.scss";
+@import "./src/styles/_typography.scss";
+
+.background {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  background: theme-gradient('base'), theme-gradient('noise');
+}
+
+.fileUploader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 16px;
+  padding: 8px;
+  margin: 20px 0;
+  background-color: theme-color('light-blue');
+  box-shadow: theme-shadows('button');
+
+  font-family: theme-fonts('button'), monospace;
+  font-weight: theme-font-weights('button');
+  font-size: theme-font-sizes('button');
+  text-transform: uppercase;
+  color: theme-color('text');
+}
+
+.preview {
+  flex: 1;
+  max-width: 200px;
+}
