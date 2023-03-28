@@ -1,12 +1,13 @@
 import {APIError} from './types';
 import objMethods from '../utils/object';
+import {type} from 'os';
 
-const InternalError = {
+export const InternalError = {
 	message: 'Internal error during request.',
 	code: -500
 };
 
-const getExceptionPayload = (ex: unknown): APIError => {
+const getExceptionPayload = (ex: any): APIError => {
 	if (typeof ex !== 'object' || !ex) {
 		return InternalError;
 	}
@@ -17,6 +18,11 @@ const getExceptionPayload = (ex: unknown): APIError => {
 			message: typedException.message,
 			code: typedException.code
 		};
+	} else if (objMethods.hasProperty(ex, 'errors')) {
+		return {
+			message: ex.errors,
+			code: 400
+		} as APIError;
 	}
 
 	return InternalError;

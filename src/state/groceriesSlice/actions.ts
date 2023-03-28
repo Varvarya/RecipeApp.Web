@@ -3,15 +3,18 @@ import api from '../api';
 import getExceptionPayload from '../errors';
 import { APIError } from '../types';
 
-const analizePhotoAction = createAsyncThunk<any, any, {rejectValue: APIError}>(
+const analyzePhotoAction = createAsyncThunk<any, any, {rejectValue: APIError}>(
 	'/recognize',
 	async (data, { rejectWithValue }) => {
 		try {
-			const res = await api.post('/Ingredients/recognize-ingredients', data, {headers: {
+			console.log(data);
+			const formData = new FormData();
+			formData.append('image', data);
+
+			const res = await api.post('/Ingredients/recognize-ingredients', formData, {headers: {
 				Accept: 'text/plain',
 				'Content-Type': 'multipart/form-data',
 			},});
-			sessionStorage.setItem('token', res.data.token);
 			return res.data;
 		} catch (ex) {
 			return rejectWithValue(getExceptionPayload(ex));
@@ -20,4 +23,4 @@ const analizePhotoAction = createAsyncThunk<any, any, {rejectValue: APIError}>(
 );
 
 
-export {analizePhotoAction};
+export {analyzePhotoAction};

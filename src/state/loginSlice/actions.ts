@@ -23,8 +23,8 @@ const registrationAction = createAsyncThunk<any, regisrationModel,{rejectValue: 
 		console.log(data);
 		try {
 			const res = await api.post('/User', data);
-			console.log(res);
-			return res.data;
+			console.log('res', res);
+			if (res) return res.data;
 		} catch (ex) {
 			return rejectWithValue(getExceptionPayload(ex));
 		}

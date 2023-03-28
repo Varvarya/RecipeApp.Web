@@ -5,15 +5,17 @@ import NavBar from '../../components/navBar';
 import Window from '../../components/window';
 import Button from '../../components/button';
 import uploadFile from '../../utils/fileReader';
-import { analizePhotoAction } from '../../state/groceriesSlice/actions';
+import { analyzePhotoAction } from '../../state/groceriesSlice/actions';
 
 type GroceriesPageProps ={
 	sendPhoto: any,
+	groceries: {confidence: number, class: string} [],
 }
 
-const GroceriesPage: React.FC<GroceriesPageProps> = ({sendPhoto}) => {
+const GroceriesPage: React.FC<GroceriesPageProps> = ({sendPhoto, groceries=[]}) => {
 	const [selectedFile, setSelectedFile] = useState();
 	const [preview, setPreview] = useState<string | undefined>(undefined);
+	const [groceriesList, setGroceriesList] = useState(groceries);
 
 	useEffect(() => {
 		if (!selectedFile) {
@@ -25,7 +27,7 @@ const GroceriesPage: React.FC<GroceriesPageProps> = ({sendPhoto}) => {
 		setPreview(objectUrl);
 
 		return () => URL.revokeObjectURL(objectUrl);
-	}, [selectedFile, preview]);
+	}, [selectedFile, groceries]);
 
 	const onSelectFile = (e: any) => {
 		if (!e.target.files || e.target.files.length === 0) {
@@ -36,24 +38,40 @@ const GroceriesPage: React.FC<GroceriesPageProps> = ({sendPhoto}) => {
 		setSelectedFile(e.target.files[0]);
 	};
 
+	const analyzePhoto = () => {
+		if (selectedFile) sendPhoto(selectedFile).then((res: any) => {
+			console.log(res);
+			setGroceriesList(res.payload.ingredients);
+		});
+	};
+
 	return (
 		<div className='background'>
 			<NavBar />
 			<Window title={'Add ingredient'}>
-				<form onClick={onSelectFile} className='fileUploader' >
-					<label htmlFor="img">Select image:</label>
-					<input type="file" id="img" name="img" accept="image/*" />
-					{selectedFile &&  <img className='preview' src={preview} /> }
-				</form>
-				<Button onClick={() => sendPhoto(uploadFile(selectedFile))} text={'Upload'}/>
+				<div className='row'>
+					<form onClick={onSelectFile} className='fileUploader' >
+						<label htmlFor="img">Select image:</label>
+						<input type="file" id="img" name="img" accept="image/*" />
+						{selectedFile && <img className='preview' src={preview} />}
+					</form>
+					<div className='fileUploader'>
+						<ul>
+							{groceriesList.map((e, index) => (<li key={index} className={'item'}>{e.class}</li>))}
+						</ul>
+					</div>
+				</div>
+				<Button onClick={analyzePhoto} text={'Upload'}/>
 			</Window>
 		</div>
 	);
 };
 
-const mapStateToProps = null;
+const mapStateToProps = ({groceries}:any) => ({
+	groceries: groceries.groceries
+});
 const mapDispatchToProps = {
-	sendPhoto: analizePhotoAction
+	sendPhoto: analyzePhotoAction
 };
 
 export default connect(mapStateToProps,mapDispatchToProps)(GroceriesPage);

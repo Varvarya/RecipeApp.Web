@@ -1,6 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {loginAction, registrationAction} from './actions';
 import {APIError, APIStatus} from '../types';
+import {InternalError} from '../errors';
 
 type StateType = {
 	username?: string,
@@ -29,11 +30,12 @@ export const loginSlice = createSlice({
 			})
 			.addCase(loginAction.fulfilled, (state, action) => {
 				state.status = APIStatus.FULFILLED;
-				state.username = action.payload.userInfo.username;
+				if (action.payload.userInfo) state.username = action.payload.userInfo.userName;
 			})
 			.addCase(loginAction.rejected, (state, action) => {
 				state.status = APIStatus.REJECTED;
-				state.error = action.payload;
+				console.log(action);
+				//state.error = action.error || undefined;
 			})
 			.addCase(registrationAction.pending, (state) => {
 				state.status = APIStatus.PENDING;
@@ -45,6 +47,8 @@ export const loginSlice = createSlice({
 			.addCase(registrationAction.rejected, (state, action) => {
 				state.status = APIStatus.REJECTED;
 				state.error = action.payload;
+				console.log(action);
+				//state.error = action.error || undefined;
 			});
 
 	}

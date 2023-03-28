@@ -28,15 +28,26 @@ const RegistrationPage: React.FC<RegistrationPageProps> = ({register, login}) =>
 		clientURIForEmailConfirmation: 'http://localhost:4200'
 	});
 
+	const [errors, setErrors] = useState<regisrationModel>({
+		userName: '',
+		email: '',
+		password: '',
+		confirmPassword: '',
+		clientURIForEmailConfirmation: 'http://localhost:4200'
+	});
+
 	const changeInputData = (e: ChangeEvent<HTMLInputElement>) => {
 		setFormData({...formData, [e.target.name]: e.target.value});
 	};
 
 	const registerUser = () => {
 		register(formData).then((res: any) => {
-			if (res) {
+			console.log(res);
+			if (!res.error) {
 				login({username: formData.userName, password: formData.password});
 				history.push('/home');
+			} else {
+				setErrors(res.error);
 			}
 		});
 	};

@@ -5,16 +5,18 @@ import InputField from '../../components/inputField';
 import UserIcon from '../../assets/Icons/UserIcon.png';
 import PasswordIcon from '../../assets/Icons/PasswordIcon.png';
 import Button from '../../components/button';
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import {loginAction} from '../../state/loginSlice/actions';
 import { connect } from 'react-redux';
 import {loginModel} from '../../state/loginSlice/requestsModels';
 
 type LoginPageProps ={
-	login: (data: loginModel) => void,
+	login: (data: loginModel) => any,
 }
 
 const LoginPage: React.FC<LoginPageProps> = ({login}) => {
+	const history = useHistory();
+
 	const [formData, setFormData] = useState<loginModel>({
 		username: '',
 		password: '',
@@ -22,6 +24,14 @@ const LoginPage: React.FC<LoginPageProps> = ({login}) => {
 
 	const changeInputData = (e: ChangeEvent<HTMLInputElement>) => {
 		setFormData({...formData, [e.target.name]: e.target.value});
+	};
+
+	const loginUser = () => {
+		login(formData).then((res: any) => {
+			if (res) {
+				history.push('/home');
+			}
+		});
 	};
 
 	return (
@@ -42,7 +52,7 @@ const LoginPage: React.FC<LoginPageProps> = ({login}) => {
 					icon={PasswordIcon}
 					isPassword
 				/>
-				<Button text={'Log in'} onClick={() => login(formData)}/>
+				<Button text={'Log in'} onClick={loginUser}/>
 				<h3>New here? <Link to={'/register'}>Create an Account</Link></h3>
 			</Window>
 		</div>
