@@ -3,7 +3,7 @@ import './styles.scss';
 
 type WindowProps = {
 	title: string;
-	children: ReactElement[];
+	children: ReactElement[] | ReactElement;
 }
 
 const Window: React.FC<WindowProps> = ({title, children}) => {

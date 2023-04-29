@@ -7,8 +7,10 @@ import PasswordIcon from '../../assets/Icons/PasswordIcon.png';
 import Button from '../../components/button';
 import {Link, useHistory} from 'react-router-dom';
 import {loginAction} from '../../state/loginSlice/actions';
-import { connect } from 'react-redux';
+import {connect, useSelector} from 'react-redux';
 import {loginModel} from '../../state/loginSlice/requestsModels';
+import {selectToken} from '../../state/loginSlice';
+import {Action, isFulfilled} from '@reduxjs/toolkit';
 
 type LoginPageProps ={
 	login: (data: loginModel) => any,
@@ -16,6 +18,7 @@ type LoginPageProps ={
 
 const LoginPage: React.FC<LoginPageProps> = ({login}) => {
 	const history = useHistory();
+	const loginState = useSelector(selectToken);
 
 	const [formData, setFormData] = useState<loginModel>({
 		username: '',
@@ -27,8 +30,9 @@ const LoginPage: React.FC<LoginPageProps> = ({login}) => {
 	};
 
 	const loginUser = () => {
-		login(formData).then((res: any) => {
-			if (res) {
+		login(formData).then((res: Action) => {
+			console.log(res);
+			if (isFulfilled(res)) {
 				history.push('/home');
 			}
 		});

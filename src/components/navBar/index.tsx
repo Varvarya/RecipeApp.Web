@@ -11,6 +11,7 @@ const NavBar: React.FC<NavBarFieldProps> = () => {
 			<div className='nav-container'>
 				<text className='nav-el'>Receipts</text>
 				<Link to={'/groceries'}><text className='nav-el'>Groceries</text></Link>
+				<Link to={'/profile'}><text className='nav-el'>Me</text></Link>
 				<text className='nav-el'>Home</text>
 			</div>
 		</div>

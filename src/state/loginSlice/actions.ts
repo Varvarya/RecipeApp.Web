@@ -9,8 +9,14 @@ const loginAction = createAsyncThunk<any, loginModel, {rejectValue: APIError}>(
 	async (data, { rejectWithValue }) => {
 		try {
 			const res = await api.post('/Auth/token', data);
-			sessionStorage.setItem('token', res.data.token);
-			return res.data;
+			console.log(res);
+			if (res.data.loginErrorCode === 100) {
+				sessionStorage.setItem('token', res.data.token);
+				return res.data;
+			} else {
+				throw res.data.loginErrorCode;
+			}
+
 		} catch (ex) {
 			return rejectWithValue(getExceptionPayload(ex));
 		}
@@ -23,8 +29,7 @@ const registrationAction = createAsyncThunk<any, regisrationModel,{rejectValue: 
 		console.log(data);
 		try {
 			const res = await api.post('/User', data);
-			console.log('res', res);
-			if (res) return res.data;
+			return res.data;
 		} catch (ex) {
 			return rejectWithValue(getExceptionPayload(ex));
 		}

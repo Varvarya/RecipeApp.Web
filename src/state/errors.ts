@@ -7,7 +7,7 @@ export const InternalError = {
 	code: -500
 };
 
-const getExceptionPayload = (ex: any): APIError => {
+const getExceptionPayload = (ex: unknown): APIError => {
 	if (typeof ex !== 'object' || !ex) {
 		return InternalError;
 	}
@@ -18,11 +18,6 @@ const getExceptionPayload = (ex: any): APIError => {
 			message: typedException.message,
 			code: typedException.code
 		};
-	} else if (objMethods.hasProperty(ex, 'errors')) {
-		return {
-			message: ex.errors,
-			code: 400
-		} as APIError;
 	}
 
 	return InternalError;

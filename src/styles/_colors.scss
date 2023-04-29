@@ -10,6 +10,8 @@ $color-gray: #808080;
 $color-base-border: #151441;
 $color-base-link: #2548FF;
 
+$color-background: rgba(21, 20, 65, 0.7);
+
 $color-info-error: #FC4444;
 $color-info-warning: #FFBF83;
 $color-info-shadow-warning: #DC9452;
@@ -33,6 +35,7 @@ $theme-colors: (
         border: $color-base-border,
         text: $color-base-border,
         link: $color-base-link,
+        background: $color-background,
         info-error: $color-info-error,
         info-warning: $color-info-warning,
         info-success: $color-info-success,

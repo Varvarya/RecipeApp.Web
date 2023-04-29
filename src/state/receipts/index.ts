@@ -1,10 +1,11 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {loginAction, registrationAction} from './actions';
 import {APIError, APIStatus} from '../types';
 import {RootState} from '../store';
+import {filterReceiptsAction} from './actions';
+import {Receipt} from './requestsModels';
 
 type StateType = {
-	username?: string,
+	receipts?: Receipt[],
 	status: APIStatus,
 	token?: string,
 	loading: boolean,
@@ -12,43 +13,30 @@ type StateType = {
 }
 
 const initialState: StateType = {
-	username: '',
+	receipts: [],
 	status: APIStatus.IDLE,
 	token: undefined,
 	loading: false,
 	error: undefined
 };
-export const loginSlice = createSlice({
-	name: 'login',
+export const receiptsSlice = createSlice({
+	name: 'receipt',
 	initialState: initialState,
 	reducers: {},
 	extraReducers: (builder) => {
 		builder
-			.addCase(loginAction.pending, (state) => {
+			.addCase(filterReceiptsAction.pending, (state) => {
 				state.status = APIStatus.PENDING;
 			})
-			.addCase(loginAction.fulfilled, (state, action) => {
+			.addCase(filterReceiptsAction.fulfilled, (state, action) => {
 				state.status = APIStatus.FULFILLED;
 				if (action.payload.userInfo) state.username = action.payload.userInfo.userName;
 			})
-			.addCase(loginAction.rejected, (state, action) => {
+			.addCase(filterReceiptsAction.rejected, (state, action) => {
 				state.status = APIStatus.REJECTED;
-				console.log(action);
-				//state.error = action.error || undefined;
-			})
-			.addCase(registrationAction.pending, (state) => {
-				state.status = APIStatus.PENDING;
-			})
-			.addCase(registrationAction.fulfilled, (state, action) => {
-				state.status = APIStatus.FULFILLED;
-			})
-			.addCase(registrationAction.rejected, (state, action) => {
-				state.status = APIStatus.REJECTED;
-				state.error = action.payload;
 				console.log(action);
 				//state.error = action.error || undefined;
 			});
-
 	}
 });
 

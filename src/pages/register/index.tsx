@@ -43,12 +43,8 @@ const RegistrationPage: React.FC<RegistrationPageProps> = ({register, login}) =>
 	const registerUser = () => {
 		register(formData).then((res: any) => {
 			console.log(res);
-			if (!res.error) {
-				login({username: formData.userName, password: formData.password});
-				history.push('/home');
-			} else {
-				setErrors(res.error);
-			}
+			login({username: formData.userName, password: formData.password});
+			history.push('/home');
 		});
 	};
 

@@ -19,10 +19,44 @@ h3 {
   color: theme-color('text');
   text-align: center;
   cursor: default;
+  margin: 0;
+}
+
+h3 {
+  font-family: theme-fonts('text'), monospace;
+  font-weight: theme-font-weights('text');
+  font-size: theme-font-sizes('text');
+  color: theme-color('text');
+  text-align: center;
+  cursor: default;
+  margin: 0;
+}
+
+h4 {
+  font-family: theme-fonts('text'), monospace;
+  font-weight: theme-font-weights('h4');
+  font-size: theme-font-sizes('h4');
+  color: theme-color('text');
+  text-align: center;
+  cursor: default;
+  margin: 0;
 }
 
 a {
   color: theme-color('link');
   text-decoration: underline;
   cursor: pointer;
+}
+
+.small-icon {
+  object-fit: contain;
+  max-height: theme-sizes('small-icon-height');
+  max-width: theme-sizes('small-icon-height');
+  cursor: pointer;
+}
+
+span {
+  display: flex;
+  flex-direction: row;
+  column-gap: 4px;
 }

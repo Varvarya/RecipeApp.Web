@@ -4,6 +4,7 @@ import Login from '../pages/login';
 import RegistrationPage from '../pages/register';
 import Main from '../pages/main';
 import GroceriesPage from '../pages/groceries';
+import UserProfilePage from '../pages/profile';
 
 const RouterConfig = () => {
 	return (
@@ -12,6 +13,7 @@ const RouterConfig = () => {
 			<Route path='/login'><Login /></Route>
 			<Route path='/register'><RegistrationPage /></Route>
 			<Route path='/groceries'><GroceriesPage /></Route>
+			<Route path='/profile'><UserProfilePage /></Route>
 		</Switch>
 	);
 };

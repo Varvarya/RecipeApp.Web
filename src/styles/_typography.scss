@@ -14,6 +14,11 @@ $base-input-font-weight: 500;
 $base-font-weight: 700;
 $base-font-size: 20px;
 
+//Typography
+$h3-font-size: 20px;
+$h4-font-size: 16px;
+$h4-font-weigth: 500;
+
 //Button
 $base-button-font-family: 'Space Mono', monospace;
 $base-button-font-size: 24px;
@@ -38,12 +43,14 @@ $base-font-weights: (
       input: $base-input-font-weight,
       text: $base-font-weight,
       button: $base-button-font-weight,
+      h4: $h4-font-weigth,
 );
 
 $base-font-sizes: (
       title: $base-title-size,
       input: $base-font-size,
       text: $base-font-size,
+      h4: $h4-font-size,
       button: $base-button-font-size
 );
 

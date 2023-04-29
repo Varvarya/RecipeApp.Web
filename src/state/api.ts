@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-	baseURL: 'https://localhost:7261/api/',
+	baseURL: 'https://recipeappwebapi.azurewebsites.net/api/',
 	headers: {
 		Accept: 'application/json',
 		'Content-Type': 'application/json',
