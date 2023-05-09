@@ -5,22 +5,37 @@ import InputField from '../../components/inputField';
 import UserIcon from '../../assets/Icons/UserIcon.png';
 import PasswordIcon from '../../assets/Icons/PasswordIcon.png';
 import Button from '../../components/button';
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import {loginAction} from '../../state/loginSlice/actions';
-import { connect } from 'react-redux';
+import {connect, useSelector} from 'react-redux';
+import {loginModel} from '../../state/loginSlice/requestsModels';
+import {selectToken} from '../../state/loginSlice';
+import {Action, isFulfilled} from '@reduxjs/toolkit';
 
 type LoginPageProps ={
-	login: (data: {username: string, password: string}) => void,
+	login: (data: loginModel) => any,
 }
 
 const LoginPage: React.FC<LoginPageProps> = ({login}) => {
-	const [formData, setFormData] = useState({
-		username: 'Varvara Tisheninova',
-		password: 'Password',
+	const history = useHistory();
+	const loginState = useSelector(selectToken);
+
+	const [formData, setFormData] = useState<loginModel>({
+		username: '',
+		password: '',
 	});
 
 	const changeInputData = (e: ChangeEvent<HTMLInputElement>) => {
 		setFormData({...formData, [e.target.name]: e.target.value});
+	};
+
+	const loginUser = () => {
+		login(formData).then((res: Action) => {
+			console.log(res);
+			if (isFulfilled(res)) {
+				history.push('/home');
+			}
+		});
 	};
 
 	return (
@@ -41,7 +56,7 @@ const LoginPage: React.FC<LoginPageProps> = ({login}) => {
 					icon={PasswordIcon}
 					isPassword
 				/>
-				<Button text={'Log in'} onClick={() => login(formData)}/>
+				<Button text={'Log in'} onClick={loginUser}/>
 				<h3>New here? <Link to={'/register'}>Create an Account</Link></h3>
 			</Window>
 		</div>

@@ -7,26 +7,53 @@ import MailIcon from '../../assets/Icons/MailIcon.png';
 import PasswordIcon from '../../assets/Icons/PasswordIcon.png';
 import RepeatPasswordIcon from '../../assets/Icons/RepeatPasswordIcon.png';
 import Button from '../../components/button';
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
+import {loginAction, registrationAction} from '../../state/loginSlice/actions';
+import {connect} from 'react-redux';
+import {loginModel, regisrationModel} from '../../state/loginSlice/requestsModels';
 
-const RegistrationPage = () => {
-	const [formData, setFormData] = useState({
-		username: 'Varvara Tisheninova',
-		email: 'varvara.tisheninova@nure.ua',
-		password: 'Password',
-		repeatPassword: 'Password',
+type RegistrationPageProps ={
+	register: (data: regisrationModel) => any,
+	login: (data: loginModel) => void,
+}
+
+const RegistrationPage: React.FC<RegistrationPageProps> = ({register, login}) => {
+	const history = useHistory();
+
+	const [formData, setFormData] = useState<regisrationModel>({
+		userName: '',
+		email: '',
+		password: '',
+		confirmPassword: '',
+		clientURIForEmailConfirmation: 'http://localhost:4200'
+	});
+
+	const [errors, setErrors] = useState<regisrationModel>({
+		userName: '',
+		email: '',
+		password: '',
+		confirmPassword: '',
+		clientURIForEmailConfirmation: 'http://localhost:4200'
 	});
 
 	const changeInputData = (e: ChangeEvent<HTMLInputElement>) => {
 		setFormData({...formData, [e.target.name]: e.target.value});
 	};
 
+	const registerUser = () => {
+		register(formData).then((res: any) => {
+			console.log(res);
+			login({username: formData.userName, password: formData.password});
+			history.push('/home');
+		});
+	};
+
 	return (
 		<div className='background'>
 			<Window title={'Registration'}>
 				<InputField
-					name='username'
-					value={formData.username}
+					name='userName'
+					value={formData.userName}
 					placeholder={'Enter your username...'}
 					onChange={changeInputData}
 					icon={UserIcon}
@@ -47,18 +74,24 @@ const RegistrationPage = () => {
 					isPassword
 				/>
 				<InputField
-					name='repeatPassword'
-					value={formData.repeatPassword}
+					name='confirmPassword'
+					value={formData.confirmPassword}
 					placeholder={'Repeat your password...'}
 					onChange={changeInputData}
 					icon={RepeatPasswordIcon}
 					isPassword
 				/>
-				<Button text={'Register'} onClick={() => console.log(formData)} color={'opposite'}/>
+				<Button text={'Register'} onClick={registerUser} color={'opposite'}/>
 				<h3>Already have an account? <Link to={'/login'}>Log in</Link></h3>
 			</Window>
 		</div>
 	);
 };
 
-export default RegistrationPage;
+const mapStateToProps = null;
+const mapDispatchToProps = {
+	register: registrationAction,
+	login: loginAction
+};
+
+export default connect(mapStateToProps,mapDispatchToProps)(RegistrationPage);

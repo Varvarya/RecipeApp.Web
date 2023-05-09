@@ -1,0 +1,38 @@
+@import "./src/styles/_colors.scss";
+@import "./src/styles/_sizes.scss";
+@import "../../styles/_typography.scss";
+@import "../../styles/_gradients.scss";
+
+.navbar {
+  display: flex;
+  flex: 1;
+  width: 99vw;
+  position: absolute;
+  top: 0;
+  align-items: flex-end;
+  justify-content: flex-end;
+  flex-direction: row;
+  background-color: theme-color('light-blue');
+  border-bottom-left-radius: theme-sizes('border-radius');
+  border-bottom-right-radius: theme-sizes('border-radius');
+
+  border-width: theme-sizes('borders-width');
+  border-color: theme-color('border');
+  border-style: solid;
+  border-top: none;
+}
+
+.nav-container {
+  display: flex;
+  align-self: flex-end;
+  column-gap: 40px;
+  padding: 10px 30px;
+}
+
+.nav-el {
+  font-family: theme-fonts('button'), monospace;
+  font-weight: theme-font-weights('button');
+  font-size: theme-font-sizes('button');
+  text-transform: uppercase;
+  color: theme-color('text');
+}

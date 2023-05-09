@@ -1,7 +1,8 @@
 import {APIError} from './types';
 import objMethods from '../utils/object';
+import {type} from 'os';
 
-const InternalError = {
+export const InternalError = {
 	message: 'Internal error during request.',
 	code: -500
 };

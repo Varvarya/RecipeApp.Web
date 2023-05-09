@@ -1,0 +1,29 @@
+@import "./src/styles/_colors.scss";
+@import "./src/styles/_sizes.scss";
+@import "../../styles/_typography.scss";
+@import "../../styles/_gradients.scss";
+
+.search-container {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.select {
+  max-height: 20vh;
+  width: 90%;
+  overflow-y: auto;
+  background-color: theme-color('light-blue');
+  margin: -16px theme-sizes('small-paper-padding') 0 theme-sizes('small-paper-padding');
+  padding: 4px 0;
+}
+
+.select-item {
+  height: 20px;
+  margin: 2px;
+  &:hover {
+    background-color:yellow;
+    cursor: pointer;
+  }
+}

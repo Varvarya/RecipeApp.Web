@@ -1,9 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import loginReducer from './loginSlice';
+import groceriesReducer from './groceriesSlice';
+import familiesReducer from './familiesSlice';
 
 const store = configureStore({
 	reducer: {
-		login: loginReducer
+		login: loginReducer,
+		groceries: groceriesReducer,
+		families: familiesReducer
 	},
 });
 

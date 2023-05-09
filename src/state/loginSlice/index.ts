@@ -1,6 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {loginAction} from './actions';
+import {loginAction, registrationAction} from './actions';
 import {APIError, APIStatus} from '../types';
+import {RootState} from '../store';
 
 type StateType = {
 	username?: string,
@@ -17,7 +18,6 @@ const initialState: StateType = {
 	loading: false,
 	error: undefined
 };
-
 export const loginSlice = createSlice({
 	name: 'login',
 	initialState: initialState,
@@ -29,14 +29,30 @@ export const loginSlice = createSlice({
 			})
 			.addCase(loginAction.fulfilled, (state, action) => {
 				state.status = APIStatus.FULFILLED;
-				state.username = action.payload.userInfo.username;
+				if (action.payload.userInfo) state.username = action.payload.userInfo.userName;
 			})
 			.addCase(loginAction.rejected, (state, action) => {
 				state.status = APIStatus.REJECTED;
+				console.log(action);
+				//state.error = action.error || undefined;
+			})
+			.addCase(registrationAction.pending, (state) => {
+				state.status = APIStatus.PENDING;
+			})
+			.addCase(registrationAction.fulfilled, (state, action) => {
+				state.status = APIStatus.FULFILLED;
+			})
+			.addCase(registrationAction.rejected, (state, action) => {
+				state.status = APIStatus.REJECTED;
 				state.error = action.payload;
+				console.log(action);
+				//state.error = action.error || undefined;
 			});
 
 	}
 });
 
 export default loginSlice.reducer;
+
+const selectToken = (state: RootState) => ({token: state.login.token, error: state.login.error});
+export {selectToken};

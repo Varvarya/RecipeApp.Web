@@ -2,12 +2,15 @@ $color-base-purple: #4633C9;
 $color-base-green: #94D3AE;
 $color-shadow-green: #40AD6D;
 $color-base-light-pink: #FFE7EF;
+$color-base-light-blue: #D4DDFF;
 $color-base-pink: #DF5CBE;
 $color-base-gray: #DDDDDD;
 $color-gray: #808080;
 
 $color-base-border: #151441;
 $color-base-link: #2548FF;
+
+$color-background: rgba(21, 20, 65, 0.7);
 
 $color-info-error: #FC4444;
 $color-info-warning: #FFBF83;
@@ -18,6 +21,8 @@ $theme-colors: (
         primary: $color-base-purple,
 
         secondary: $color-base-pink,
+
+        light-blue: $color-base-light-blue,
 
         accent: $color-base-green,
         accent-shadow: $color-shadow-green,
@@ -30,6 +35,7 @@ $theme-colors: (
         border: $color-base-border,
         text: $color-base-border,
         link: $color-base-link,
+        background: $color-background,
         info-error: $color-info-error,
         info-warning: $color-info-warning,
         info-success: $color-info-success,
