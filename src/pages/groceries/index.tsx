@@ -16,6 +16,7 @@ import {IngredientType} from '../../state/groceriesSlice/requestsModels';
 import ModalWindow from '../../components/modalWindow';
 import InputField from '../../components/inputField';
 import SearchField from '../../components/searchField';
+import {RootState} from '../../state/store';
 
 type GroceriesPageProps ={
 	sendPhoto: any,
@@ -39,7 +40,7 @@ const GroceriesPage: React.FC<GroceriesPageProps> = ({
 	groceries=[{id: 1, name: 'Name', amount: 1, unit: 'unit'}],
 	recognized=[],
 	possibleGroceries=[],
-														 postStoredIngredients}) => {
+	postStoredIngredients}) => {
 	const [modalState, setModalState] = useState<modalState>({
 		preview: undefined,
 		visible: false,
@@ -156,7 +157,7 @@ const GroceriesPage: React.FC<GroceriesPageProps> = ({
 	);
 };
 
-const mapStateToProps = ({groceries}:any) => ({
+const mapStateToProps = ({groceries}:RootState) => ({
 	groceries: groceries.groceries,
 	possibleGroceries: groceries.searchRes,
 	recognized: groceries.recognizedGroceries,
