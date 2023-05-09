@@ -30,7 +30,7 @@ export const receiptsSlice = createSlice({
 			})
 			.addCase(filterReceiptsAction.fulfilled, (state, action) => {
 				state.status = APIStatus.FULFILLED;
-				if (action.payload.userInfo) state.username = action.payload.userInfo.userName;
+				state.receipts = action.payload;
 			})
 			.addCase(filterReceiptsAction.rejected, (state, action) => {
 				state.status = APIStatus.REJECTED;
@@ -40,7 +40,4 @@ export const receiptsSlice = createSlice({
 	}
 });
 
-export default loginSlice.reducer;
-
-const selectToken = (state: RootState) => ({token: state.login.token, error: state.login.error});
-export {selectToken};
+export default receiptsSlice.reducer;

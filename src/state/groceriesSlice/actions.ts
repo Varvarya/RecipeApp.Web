@@ -3,7 +3,6 @@ import api from '../api';
 import getExceptionPayload from '../errors';
 import { APIError } from '../types';
 import {IngredientType} from './requestsModels';
-import ingredientItem from '../../pages/groceries/components/IngredientItem';
 
 const analyzePhotoAction = createAsyncThunk<any, any, {rejectValue: APIError}>(
 	'/recognize',

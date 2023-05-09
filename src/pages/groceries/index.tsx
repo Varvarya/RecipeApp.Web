@@ -1,11 +1,16 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
+import React, {ChangeEvent, MouseEventHandler, useEffect, useState} from 'react';
 import './styles.scss';
 import { connect } from 'react-redux';
 import NavBar from '../../components/navBar';
 import Window from '../../components/window';
 import Button from '../../components/button';
 import uploadFile from '../../utils/fileReader';
-import {analyzePhotoAction, getIngredientsListAction} from '../../state/groceriesSlice/actions';
+import {
+	analyzePhotoAction,
+	getIngredientsListAction,
+	getStoredIngredientsAction,
+	postStoredIngredientsAction
+} from '../../state/groceriesSlice/actions';
 import IngredientItem from './components/IngredientItem';
 import {IngredientType} from '../../state/groceriesSlice/requestsModels';
 import ModalWindow from '../../components/modalWindow';
@@ -18,6 +23,8 @@ type GroceriesPageProps ={
 	groceries: IngredientType [],
 	recognized: IngredientType [],
 	possibleGroceries: IngredientType [],
+	getStoredIngredients: any,
+	postStoredIngredients: any
 }
 
 type modalState = {
@@ -31,7 +38,8 @@ const GroceriesPage: React.FC<GroceriesPageProps> = ({
 	getIngredientsListAction,
 	groceries=[{id: 1, name: 'Name', amount: 1, unit: 'unit'}],
 	recognized=[],
-	possibleGroceries=[]}) => {
+	possibleGroceries=[],
+														 postStoredIngredients}) => {
 	const [modalState, setModalState] = useState<modalState>({
 		preview: undefined,
 		visible: false,
@@ -51,7 +59,7 @@ const GroceriesPage: React.FC<GroceriesPageProps> = ({
 		setModalState({...modalState, preview: objectUrl});
 
 		return () => URL.revokeObjectURL(objectUrl);
-	}, [modalState.visible, groceries, possibleGroceries, recognized]);
+	}, [modalState.visible, groceries, groceriesList, possibleGroceries, recognized]);
 
 	const onSelectFile = (e: any) => {
 		if (!e.target.files || e.target.files.length === 0) {
@@ -65,13 +73,29 @@ const GroceriesPage: React.FC<GroceriesPageProps> = ({
 	const analyzePhoto = () => {
 		if (modalState.selectedFile) sendPhoto(modalState.selectedFile).then((res: any) => {
 			console.log(res);
-			setGroceriesList(res.payload.ingredients);
+			setGroceriesList([...groceriesList, ...res.payload.ingredients]);
 		});
 	};
 
 	const search = (e: ChangeEvent<HTMLInputElement>) => {
 		setSearchText(e.target.value);
 		getIngredientsListAction(e.target.value);
+	};
+
+	const select = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+		setSearchText('');
+		console.log((e.target as HTMLElement).innerText);
+	};
+
+	const changeAmount = (amount: number, index: number) => {
+		const res = groceriesList;
+		if (amount !== 0) {
+			res[index].amount = amount;
+		} else {
+			res.splice(index, 1);
+		}
+		console.log(res);
+		setGroceriesList(res);
 	};
 
 	return (
@@ -88,19 +112,44 @@ const GroceriesPage: React.FC<GroceriesPageProps> = ({
 							</form>
 							<div className='fileUploader'>
 								<ul>
-									{recognized.map((e, index) => (<IngredientItem key={index} ingredient={e} onClickFunc={() => console.log('click')} />))}
+									{recognized.map((e, index) => (
+										<IngredientItem
+											key={index}
+											index={index}
+											ingredient={e}
+											onClickFunc={() => changeAmount(0, index)}
+											changeAmount={changeAmount}
+										/>))}
 								</ul>
 							</div>
 						</div>
 						<Button onClick={analyzePhoto} text={'Upload'}/>
 					</ModalWindow>}
 					<div>
-						<SearchField input={searchText} placeholder={'Search ingredient'} onChange={search} name={'Search'}  values={possibleGroceries.map((e) => e.name)}/>
+						<SearchField
+							input={searchText}
+							placeholder={'Search ingredient'}
+							onChange={search}
+							onSelect={select}
+							name={'Search'}
+							values={possibleGroceries.map((e) => e.name)}
+						/>
 						<ul>
-							{groceries.map((e, index) => (<IngredientItem key={index} ingredient={e} onClickFunc={() => console.log('click')} />))}
+							{groceriesList.map((e, index) => (
+								<IngredientItem
+									key={index}
+									index={index}
+									ingredient={e}
+									onClickFunc={() => changeAmount(0, index)}
+									changeAmount={changeAmount}
+								/>))}
 						</ul>
 					</div>
-					<Button text={'Add photo'} onClick={() => setModalState({...modalState, visible: true})} />
+					<div className='row'>
+						<Button text={'Save'} onClick={() => postStoredIngredients(groceriesList)} />
+						<Button text={'Add photo'} color='opposite' onClick={() => setModalState({...modalState, visible: true})} />
+					</div>
+
 				</div>
 			</Window>
 		</div>
@@ -115,6 +164,8 @@ const mapStateToProps = ({groceries}:any) => ({
 const mapDispatchToProps = {
 	sendPhoto: analyzePhotoAction,
 	getIngredientsListAction: getIngredientsListAction,
+	getStoredIngredients: getStoredIngredientsAction,
+	postStoredIngredients: postStoredIngredientsAction
 };
 
 export default connect(mapStateToProps,mapDispatchToProps)(GroceriesPage);
