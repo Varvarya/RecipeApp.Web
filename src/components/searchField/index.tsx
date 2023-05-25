@@ -12,12 +12,10 @@ type InputFieldProps = {
 	name: string;
 }
 const SearchField: React.FC<InputFieldProps> = ({input, values, placeholder, name, onChange, onSelect}) => {
-	const arr = [1, 2, 3, 4];
-
 	return (
 		<div className='search-container'>
 			<InputField  name={name} onChange={onChange} placeholder={placeholder} value={input}/>
-			{values.length > 0 &&
+			{(input && input?.length > 0 && values.length > 0) &&
 				<div className='select'>
 					{values.map((e) => <div key={e} className='select-item' onClick={onSelect}>{e}</div>)}
 				</div>
