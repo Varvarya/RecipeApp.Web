@@ -8,11 +8,11 @@ type ModalWindowProps = {
 	children: ReactElement[] | ReactElement;
 }
 
-const ModalWindow: React.FC<ModalWindowProps> = ({title, children}) => {
+const ModalWindow: React.FC<ModalWindowProps> = ({title, children, close}) => {
 
 	return (
-		<div className='pop-up-container'>
-			<div className='pop-up-content'>
+		<div className='pop-up-container' onClick={close}>
+			<div className='pop-up-content' onClick={e => e.stopPropagation()}>
 				<div className='controls'>
 					<div className='control-accept' />
 					<div className='control-hide' />

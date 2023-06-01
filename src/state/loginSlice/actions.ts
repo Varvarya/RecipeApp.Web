@@ -1,37 +1,36 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import api from '../api';
+import {httpClient} from '../api';
 import getExceptionPayload from '../errors';
-import { APIError } from '../types';
+import {APIError} from '../types';
 import {loginModel, regisrationModel} from './requestsModels';
+import {API_URL} from '../../consts/api';
 
-const loginAction = createAsyncThunk<any, loginModel, {rejectValue: APIError}>(
+const api = httpClient.getInstance(API_URL);
+
+const loginAction = createAsyncThunk<void, loginModel, { rejectValue: APIError }>(
 	'/login',
-	async (data, { rejectWithValue }) => {
-		try {
-			const res = await api.post('/Auth/token', data);
-			console.log(res);
-			if (res.data.loginErrorCode === 100) {
-				sessionStorage.setItem('token', res.data.token);
-				return res.data;
-			} else {
-				throw res.data.loginErrorCode;
-			}
-
-		} catch (ex) {
-			return rejectWithValue(getExceptionPayload(ex));
+	async (data, {rejectWithValue}) => {
+		const res = await api.post('/Auth/token', data);
+		if (res.data.loginErrorCode === 100) {
+			sessionStorage.setItem('token', res.data.token);
+			return res.data;
+		} else {
+			return rejectWithValue(getExceptionPayload(res));
 		}
 	}
 );
 
-const registrationAction = createAsyncThunk<any, regisrationModel,{rejectValue: APIError}>(
+const registrationAction = createAsyncThunk<any, regisrationModel, any>(
 	'/register',
-	async (data, { rejectWithValue }) => {
-		console.log(data);
-		try {
-			const res = await api.post('/User', data);
+	async (data, {rejectWithValue}) => {
+		sessionStorage.removeItem('token');
+		const res = await api.post('/User', data);
+		console.log('Res ', res);
+
+		if (res.status == 200) {
 			return res.data;
-		} catch (ex) {
-			return rejectWithValue(getExceptionPayload(ex));
+		} else {
+			return rejectWithValue(getExceptionPayload(res));
 		}
 	}
 );

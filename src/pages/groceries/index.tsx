@@ -1,10 +1,9 @@
-import React, {ChangeEvent, MouseEventHandler, useEffect, useState} from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import './styles.scss';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import NavBar from '../../components/navBar';
 import Window from '../../components/window';
 import Button from '../../components/button';
-import uploadFile from '../../utils/fileReader';
 import {
 	analyzePhotoAction,
 	getIngredientsListAction,
@@ -14,41 +13,44 @@ import {
 import IngredientItem from './components/IngredientItem';
 import {IngredientType} from '../../state/groceriesSlice/requestsModels';
 import ModalWindow from '../../components/modalWindow';
-import InputField from '../../components/inputField';
 import SearchField from '../../components/searchField';
 import {RootState} from '../../state/store';
+import Table from '../../components/table';
 
-type GroceriesPageProps ={
-	sendPhoto: any,
-	getIngredientsListAction: any,
-	groceries: IngredientType [],
-	recognized: IngredientType [],
-	possibleGroceries: IngredientType [],
-	getStoredIngredients: any,
-	postStoredIngredients: any
+type GroceriesPageProps = {
+    sendPhoto: any,
+    getIngredientsListAction: any,
+    groceries: IngredientType [],
+    recognized: IngredientType [],
+    possibleGroceries: IngredientType [],
+    getStoredIngredients: any,
+    postStoredIngredients: any
 }
 
 type modalState = {
-	selectedFile?: any,
-	preview?: string,
-	visible: boolean,
+    selectedFile?: any,
+    preview?: string,
+    visible: boolean,
 }
 
 const GroceriesPage: React.FC<GroceriesPageProps> = ({
 	sendPhoto,
 	getIngredientsListAction,
-	groceries=[{id: 1, name: 'Name', amount: 1, unit: 'unit'}],
-	recognized=[],
-	possibleGroceries=[],
-	postStoredIngredients}) => {
+	groceries = [{id: 1, name: 'Name', amount: 1, unit: 'unit'}],
+	recognized = [],
+	possibleGroceries = [],
+	postStoredIngredients
+}) => {
+
 	const [modalState, setModalState] = useState<modalState>({
 		preview: undefined,
 		visible: false,
 	});
 
+
 	const [searchText, setSearchText] = useState('');
 
-	const [groceriesList, setGroceriesList] = useState([{id: 1, name: 'Name', amount: 1, unit: 'unit'}]);
+	const [groceriesList, setGroceriesList] = useState({stored: groceries, recognized: recognized});
 
 	useEffect(() => {
 		if (!modalState.selectedFile) {
@@ -73,8 +75,7 @@ const GroceriesPage: React.FC<GroceriesPageProps> = ({
 
 	const analyzePhoto = () => {
 		if (modalState.selectedFile) sendPhoto(modalState.selectedFile).then((res: any) => {
-			console.log(res);
-			setGroceriesList([...groceriesList, ...res.payload.ingredients]);
+			setGroceriesList({...groceriesList, recognized: [...res.payload.ingredients]});
 		});
 	};
 
@@ -89,31 +90,31 @@ const GroceriesPage: React.FC<GroceriesPageProps> = ({
 	};
 
 	const changeAmount = (amount: number, index: number) => {
-		const res = groceriesList;
+		const res = groceriesList.stored;
 		if (amount !== 0) {
 			res[index].amount = amount;
 		} else {
 			res.splice(index, 1);
 		}
-		console.log(res);
-		setGroceriesList(res);
+		setGroceriesList({...groceriesList, stored: res});
 	};
 
 	return (
 		<div className='background'>
-			<NavBar />
+			<NavBar/>
 			<Window title={'My ingredients'}>
 				<div className='content'>
-					{modalState.visible && <ModalWindow title={'Add ingredient'} close={() => setModalState({...modalState, visible: false})}>
+					{modalState.visible && <ModalWindow title={'Add ingredient'}
+						close={() => setModalState({...modalState, visible: false})}>
 						<div className='row'>
-							<form onClick={onSelectFile} className='fileUploader' >
+							<form onClick={onSelectFile} className='fileUploader'>
 								<label htmlFor="img">Select image:</label>
-								<input type="file" id="img" name="img" accept="image/*" />
-								{modalState.selectedFile && <img className='preview' src={modalState.preview} />}
+								<input type="file" id="img" name="img" accept="image/*"/>
+								{modalState.selectedFile && <img className='preview' src={modalState.preview}/>}
 							</form>
 							<div className='fileUploader'>
 								<ul>
-									{recognized.map((e, index) => (
+									{groceriesList.recognized.map((e, index) => (
 										<IngredientItem
 											key={index}
 											index={index}
@@ -124,7 +125,11 @@ const GroceriesPage: React.FC<GroceriesPageProps> = ({
 								</ul>
 							</div>
 						</div>
-						<Button onClick={analyzePhoto} text={'Upload'}/>
+						<span>
+							<Button color='opposite' onClick={analyzePhoto} text={'Upload'}/>
+							{!!groceriesList.recognized &&
+                                <Button text={'Save'} onClick={() => console.log(groceriesList.recognized)}/>}
+						</span>
 					</ModalWindow>}
 					<div>
 						<SearchField
@@ -135,20 +140,12 @@ const GroceriesPage: React.FC<GroceriesPageProps> = ({
 							name={'Search'}
 							values={possibleGroceries.map((e) => e.name)}
 						/>
-						<ul>
-							{groceriesList.map((e, index) => (
-								<IngredientItem
-									key={index}
-									index={index}
-									ingredient={e}
-									onClickFunc={() => changeAmount(0, index)}
-									changeAmount={changeAmount}
-								/>))}
-						</ul>
+						<Table data={groceriesList.stored}/>
 					</div>
 					<div className='row'>
-						<Button text={'Save'} onClick={() => postStoredIngredients(groceriesList)} />
-						<Button text={'Add photo'} color='opposite' onClick={() => setModalState({...modalState, visible: true})} />
+						<Button text={'Save'} onClick={() => postStoredIngredients(groceriesList)}/>
+						<Button text={'Add photo'} color='opposite'
+							onClick={() => setModalState({...modalState, visible: true})}/>
 					</div>
 
 				</div>
@@ -157,7 +154,7 @@ const GroceriesPage: React.FC<GroceriesPageProps> = ({
 	);
 };
 
-const mapStateToProps = ({groceries}:RootState) => ({
+const mapStateToProps = ({groceries}: RootState) => ({
 	groceries: groceries.groceries,
 	possibleGroceries: groceries.searchRes,
 	recognized: groceries.recognizedGroceries,
@@ -169,4 +166,4 @@ const mapDispatchToProps = {
 	postStoredIngredients: postStoredIngredientsAction
 };
 
-export default connect(mapStateToProps,mapDispatchToProps)(GroceriesPage);
+export default connect(mapStateToProps, mapDispatchToProps)(GroceriesPage);

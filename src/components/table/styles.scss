@@ -1,0 +1,76 @@
+@import "./src/styles/_colors.scss";
+@import "./src/styles/_sizes.scss";
+@import "./src/styles/_typography.scss";
+@import "./src/styles/_gradients.scss";
+
+table {
+  border-style: solid;
+  border-width: theme-sizes('controls-borders-width');
+  border-color: theme-color('border');
+  background-color: theme-color('light-blue');
+  width: 100%;
+  border-collapse: collapse;
+
+  font-family: theme-fonts('text'), monospace;
+  font-weight: theme-font-weights('text');
+  font-size: theme-font-sizes('text');
+  color: theme-color('text');
+  text-align: center;
+  cursor: default;
+  margin-bottom: 16px;
+}
+
+table td, table th {
+  padding: 3px 2px;
+}
+
+table tbody td {
+  font-size: 13px;
+}
+
+table tr:nth-child(even) {
+  background-color: theme-color('opposite');
+}
+
+table tr:nth-child(odd) {
+  background-color: theme-color('opposite-light');
+}
+
+table thead {
+  background-color: theme-color('opposite-shadow');
+}
+
+table thead th {
+  font-size: 19px;
+  font-weight: bold;
+  color: #FFFFFF;
+  text-align: center;
+  border-left: 2px solid #A40808;
+}
+
+table thead th:first-child {
+  border-left: none;
+}
+
+table tfoot {
+  font-size: 13px;
+  font-weight: bold;
+  color: #FFFFFF;
+  background-color: theme-color('opposite-shadow');
+}
+
+table tfoot td {
+  font-size: 13px;
+}
+
+table tfoot .links {
+  text-align: right;
+}
+
+table tfoot .links a {
+  display: inline-block;
+  background: #FFFFFF;
+  color: #A40808;
+  padding: 2px 8px;
+  border-radius: 5px;
+}

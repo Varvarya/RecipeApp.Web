@@ -36,6 +36,12 @@
   color: theme-color('text');
 }
 
+.input-error {
+  border-color: theme-color('info-error');
+  color: theme-color('info-error');
+  background-color: theme-color('light-pink')
+}
+
 .input-override {
   flex: 1;
   border: none;
@@ -43,8 +49,12 @@
   font-family: theme-fonts('input'), monospace;
   font-weight: theme-font-weights('input');
   font-size: theme-font-sizes('input');
-  color: theme-color('text');
   outline: none;
+  color: theme-color('text');
+}
+
+.error {
+  color: theme-color('info-error');
 }
 
 .rightIcon {

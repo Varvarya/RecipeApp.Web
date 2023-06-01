@@ -10,13 +10,18 @@ import {loginAction} from '../../state/loginSlice/actions';
 import {connect, useSelector} from 'react-redux';
 import {loginModel} from '../../state/loginSlice/requestsModels';
 import {selectToken} from '../../state/loginSlice';
-import {Action, isFulfilled} from '@reduxjs/toolkit';
+import {Action, isFulfilled, SerializedError} from '@reduxjs/toolkit';
+import {RootState} from '../../state/store';
+import {APIError} from '../../state/types';
+import ErrorText from '../../components/typography';
 
 type LoginPageProps ={
 	login: (data: loginModel) => any,
+	error?: APIError | SerializedError,
+	loading: boolean
 }
 
-const LoginPage: React.FC<LoginPageProps> = ({login}) => {
+const LoginPage: React.FC<LoginPageProps> = ({login, error, loading}) => {
 	const history = useHistory();
 	const loginState = useSelector(selectToken);
 
@@ -25,13 +30,16 @@ const LoginPage: React.FC<LoginPageProps> = ({login}) => {
 		password: '',
 	});
 
+
+	const [isValid, setIsValid] = useState(!error || formData.username.length == 0 || formData.password.length == 0 );
+
 	const changeInputData = (e: ChangeEvent<HTMLInputElement>) => {
 		setFormData({...formData, [e.target.name]: e.target.value});
+		if (e.target.value.length == 0) setIsValid(true);
 	};
 
 	const loginUser = () => {
 		login(formData).then((res: Action) => {
-			console.log(res);
 			if (isFulfilled(res)) {
 				history.push('/home');
 			}
@@ -47,6 +55,7 @@ const LoginPage: React.FC<LoginPageProps> = ({login}) => {
 					placeholder={'Enter your username...'}
 					onChange={changeInputData}
 					icon={UserIcon}
+					isValid={isValid}
 				/>
 				<InputField
 					name='password'
@@ -55,15 +64,22 @@ const LoginPage: React.FC<LoginPageProps> = ({login}) => {
 					onChange={changeInputData}
 					icon={PasswordIcon}
 					isPassword
+					isValid={isValid}
 				/>
-				<Button text={'Log in'} onClick={loginUser}/>
+				{(!isValid)
+					? <ErrorText text={'Check your username and password'} />
+					: <></>}
+				<Button text={'Log in'} onClick={loginUser} loading={loading} />
 				<h3>New here? <Link to={'/register'}>Create an Account</Link></h3>
 			</Window>
 		</div>
 	);
 };
 
-const mapStateToProps = null;
+const mapStateToProps = ({login} : RootState) => ({
+	error: login.error,
+	loading: login.loading
+});
 const mapDispatchToProps = {
 	login: loginAction
 };

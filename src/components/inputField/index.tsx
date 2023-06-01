@@ -8,17 +8,18 @@ type InputFieldProps = {
 	onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 	icon?: string;
 	name: string;
-	isPassword?: boolean
+	isPassword?: boolean;
+	isValid?: boolean
 }
-const InputField: React.FC<InputFieldProps> = ({value, placeholder, onChange, icon, name, isPassword = false}) => {
+const InputField: React.FC<InputFieldProps> = ({value, placeholder, onChange, icon, name, isPassword = false, isValid=true}) => {
 	const { passwordVisibility, rightIcon, handlePasswordVisibility } =
 		isPassword? useTogglePasswordVisibility() : { passwordVisibility: true, rightIcon: null, handlePasswordVisibility: undefined};
 
 	return (
 		<div className='input-row'>
 			{icon && <img className='icon' src={icon}/>}
-			<div className='input'>
-				<input className='input-override' name={name} placeholder={placeholder} value={value || ''} onChange={onChange} type={passwordVisibility? 'text' : 'password'}/>
+			<div className={isValid ? 'input' : 'input input-error'}>
+				<input className={isValid ? 'input-override' : 'input-override error'} name={name} placeholder={placeholder} value={value || ''} onChange={onChange} type={passwordVisibility? 'text' : 'password'}/>
 				{isPassword && rightIcon && <img className='rightIcon' src={rightIcon} onClick={handlePasswordVisibility}/>}
 			</div>
 		</div>

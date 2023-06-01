@@ -1,4 +1,4 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createSlice, SerializedError} from '@reduxjs/toolkit';
 import {loginAction, registrationAction} from './actions';
 import {APIError, APIStatus} from '../types';
 import {RootState} from '../store';
@@ -8,7 +8,7 @@ type StateType = {
 	status: APIStatus,
 	token?: string,
 	loading: boolean,
-	error?: APIError,
+	error?: APIError | SerializedError,
 }
 
 const initialState: StateType = {
@@ -26,26 +26,31 @@ export const loginSlice = createSlice({
 		builder
 			.addCase(loginAction.pending, (state) => {
 				state.status = APIStatus.PENDING;
+				state.loading = true;
 			})
 			.addCase(loginAction.fulfilled, (state, action) => {
 				state.status = APIStatus.FULFILLED;
+				state.loading = false;
 				if (action.payload.userInfo) state.username = action.payload.userInfo.userName;
 			})
 			.addCase(loginAction.rejected, (state, action) => {
 				state.status = APIStatus.REJECTED;
-				console.log(action);
-				//state.error = action.error || undefined;
+				state.loading = false;
+				state.error = action.error || undefined;
 			})
 			.addCase(registrationAction.pending, (state) => {
 				state.status = APIStatus.PENDING;
+				state.loading = true;
 			})
 			.addCase(registrationAction.fulfilled, (state, action) => {
 				state.status = APIStatus.FULFILLED;
+				state.loading = false;
 			})
 			.addCase(registrationAction.rejected, (state, action) => {
 				state.status = APIStatus.REJECTED;
-				state.error = action.payload;
-				console.log(action);
+				console.log('Reject reg ', action);
+				state.loading = false;
+				//state.error = action.payload;
 				//state.error = action.error || undefined;
 			});
 

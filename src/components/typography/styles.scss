@@ -1,0 +1,13 @@
+@import "./src/styles/_colors.scss";
+@import "./src/styles/_sizes.scss";
+@import "../../styles/_typography.scss";
+@import "../../styles/_gradients.scss";
+
+.error-text {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  color: theme-color('info-error');
+  margin-bottom: 20px;
+}

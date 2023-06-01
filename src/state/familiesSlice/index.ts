@@ -35,7 +35,6 @@ export const familiesSlice = createSlice({
 			.addCase(getUserFamilies.rejected, (state, action) => {
 				state.status = APIStatus.REJECTED;
 				state.loading = false;
-				console.log(action);
 				//state.error = action.error || undefined;
 			})
 			.addCase(addFamily.pending, (state) => {
@@ -49,7 +48,6 @@ export const familiesSlice = createSlice({
 			.addCase(addFamily.rejected, (state, action) => {
 				state.status = APIStatus.REJECTED;
 				state.error = action.payload;
-				console.log(action);
 				//state.error = action.error || undefined;
 			})
 			.addCase(editFamily.pending, (state) => {
@@ -63,7 +61,6 @@ export const familiesSlice = createSlice({
 			.addCase(editFamily.rejected, (state, action) => {
 				state.status = APIStatus.REJECTED;
 				state.error = action.payload;
-				console.log(action);
 				//state.error = action.error || undefined;
 			})
 			.addCase(deleteFamily.pending, (state) => {
@@ -77,7 +74,6 @@ export const familiesSlice = createSlice({
 			.addCase(deleteFamily.rejected, (state, action) => {
 				state.status = APIStatus.REJECTED;
 				state.error = action.payload;
-				console.log(action);
 				//state.error = action.error || undefined;
 			})
 		;

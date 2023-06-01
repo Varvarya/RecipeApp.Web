@@ -1,12 +1,12 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import api from '../api';
 import getExceptionPayload from '../errors';
-import { APIError } from '../types';
+import {APIError} from '../types';
 import {addFamiliesModel, addFamilyMemberModel, getUserFamiliesModel} from './requestsModels';
 
-const getUserFamilies = createAsyncThunk<getUserFamiliesModel, void, {rejectValue: APIError}>(
+const getUserFamilies = createAsyncThunk<getUserFamiliesModel, void, { rejectValue: APIError }>(
 	'/getFamilies',
-	async (data, { rejectWithValue }) => {
+	async (data, {rejectWithValue}) => {
 		try {
 			const res = await api.get('/Family');
 			console.log(res);
@@ -17,9 +17,9 @@ const getUserFamilies = createAsyncThunk<getUserFamiliesModel, void, {rejectValu
 	}
 );
 
-const addFamily = createAsyncThunk<boolean, addFamiliesModel,{rejectValue: APIError}>(
+const addFamily = createAsyncThunk<boolean, addFamiliesModel, { rejectValue: APIError }>(
 	'/addFamily',
-	async (data, { rejectWithValue }) => {
+	async (data, {rejectWithValue}) => {
 		console.log(data);
 		try {
 			const res = await api.post('/Family', data);
@@ -30,9 +30,9 @@ const addFamily = createAsyncThunk<boolean, addFamiliesModel,{rejectValue: APIEr
 	}
 );
 
-const editFamily = createAsyncThunk<boolean, addFamiliesModel,{rejectValue: APIError}>(
+const editFamily = createAsyncThunk<boolean, addFamiliesModel, { rejectValue: APIError }>(
 	'/editFamily',
-	async (data, { rejectWithValue }) => {
+	async (data, {rejectWithValue}) => {
 		console.log(data);
 		try {
 			const res = await api.put('/Family', data);
@@ -43,12 +43,11 @@ const editFamily = createAsyncThunk<boolean, addFamiliesModel,{rejectValue: APIE
 	}
 );
 
-const deleteFamily = createAsyncThunk<boolean, number,{rejectValue: APIError}>(
+const deleteFamily = createAsyncThunk<boolean, number, { rejectValue: APIError }>(
 	'/deleteFamily',
-	async (familyId, { rejectWithValue }) => {
-		console.log(familyId);
+	async (familyId, {rejectWithValue}) => {
 		try {
-			const res = await api.delete('/Family/'+familyId);
+			const res = await api.delete('/Family/' + familyId);
 			return res.data;
 		} catch (ex) {
 			return rejectWithValue(getExceptionPayload(ex));
@@ -56,10 +55,9 @@ const deleteFamily = createAsyncThunk<boolean, number,{rejectValue: APIError}>(
 	}
 );
 
-const addFamilyMember = createAsyncThunk<boolean, addFamilyMemberModel,{rejectValue: APIError}>(
+const addFamilyMember = createAsyncThunk<boolean, addFamilyMemberModel, { rejectValue: APIError }>(
 	'/addFamilyMember',
-	async (data, { rejectWithValue }) => {
-		console.log(data);
+	async (data, {rejectWithValue}) => {
 		try {
 			const res = await api.post('/FamilyMember', data);
 			return res.data;
@@ -69,12 +67,11 @@ const addFamilyMember = createAsyncThunk<boolean, addFamilyMemberModel,{rejectVa
 	}
 );
 
-const deleteFamilyMember = createAsyncThunk<boolean, number,{rejectValue: APIError}>(
+const deleteFamilyMember = createAsyncThunk<boolean, number, { rejectValue: APIError }>(
 	'/deleteFamilyMember',
-	async (familyMemberId, { rejectWithValue }) => {
-		console.log(familyMemberId);
+	async (familyMemberId, {rejectWithValue}) => {
 		try {
-			const res = await api.delete('/FamilyMember/'+familyMemberId);
+			const res = await api.delete('/FamilyMember/' + familyMemberId);
 			return res.data;
 		} catch (ex) {
 			return rejectWithValue(getExceptionPayload(ex));
@@ -82,4 +79,4 @@ const deleteFamilyMember = createAsyncThunk<boolean, number,{rejectValue: APIErr
 	}
 );
 
-export {getUserFamilies, addFamily , editFamily, deleteFamily, addFamilyMember, deleteFamilyMember};
+export {getUserFamilies, addFamily, editFamily, deleteFamily, addFamilyMember, deleteFamilyMember};

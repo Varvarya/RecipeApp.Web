@@ -34,7 +34,6 @@ export const receiptsSlice = createSlice({
 			})
 			.addCase(filterReceiptsAction.rejected, (state, action) => {
 				state.status = APIStatus.REJECTED;
-				console.log(action);
 				//state.error = action.error || undefined;
 			});
 	}

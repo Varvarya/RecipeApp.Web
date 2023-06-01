@@ -1,7 +1,7 @@
 export enum APIStatus {IDLE, PENDING, REJECTED, FULFILLED}
 
 export type APIError = {
-    message: string;
+    errors: string[];
     code: number;
 }
 

@@ -3,32 +3,21 @@
 @import "./src/styles/_sizes.scss";
 @import "./src/styles/_typography.scss";
 
-.item-container {
+.ingredient-container {
   display: flex;
   flex: 1;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: nowrap;
   justify-content: flex-start;
-  align-items: flex-start;
+  align-items: center;
+  width: 300px;
+  column-gap: theme-sizes('small-column-gap');
   font-family: theme-fonts('text'), monospace;
   font-weight: theme-font-weights('text');
   font-size: theme-font-sizes('text');
   color: theme-color('text');
 }
 
-.item-text {
-  display: flex;
-  flex: 1;
-  flex-direction: row;
-  align-items: center;
-  font-family: theme-fonts('text'), monospace;
-  font-weight: theme-font-weights('h4');
-  font-size: theme-font-sizes('h4');
-  color: theme-color('text');
-  text-align: center;
-  cursor: default;
-  margin: 0;
-}
-
-.family-members-list {
-  margin: 0;
+.num-input {
+  max-width: 30px;
 }

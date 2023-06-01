@@ -8,7 +8,6 @@ const analyzePhotoAction = createAsyncThunk<any, any, {rejectValue: APIError}>(
 	'/recognize',
 	async (data, { rejectWithValue }) => {
 		try {
-			console.log(data);
 			const formData = new FormData();
 			formData.append('image', data);
 

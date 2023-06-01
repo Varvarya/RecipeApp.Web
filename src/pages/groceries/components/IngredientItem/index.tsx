@@ -14,18 +14,14 @@ type IngredientItemProps = {
 
 const IngredientItem: React.FC<IngredientItemProps> = ({ingredient, onClickFunc, changeAmount, index}) => {
 	const handleClick = (e: any) => {
-		console.log(e.target.id);
-
 		onClickFunc(e.target.id);
 	};
 
 	return (
-		<div className='item-container'>
-			<span>
-				<h3>{ingredient.name}</h3>
-				<input type="number" step="1" min="1" max="100" value={ingredient.amount} name={ingredient.name} key={index} onChange={(e) => changeAmount(parseInt(e.target.value), index)}/>
-				<img className='small-icon' src={TrashIcon} id={'Delete'} onClick={handleClick}/>
-			</span>
+		<div className='ingredient-container'>
+			<h4>{ingredient.name}</h4>
+			<input className='num-input' type="number" step="1" min="1" max="50" value={ingredient.amount || 1} name={ingredient.name} key={index} onChange={(e) => changeAmount(parseInt(e.target.value), index)}/>
+			<img className='small-icon' src={TrashIcon} id={'Delete'} onClick={handleClick}/>
 		</div>
 	);
 };
