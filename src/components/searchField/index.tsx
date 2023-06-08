@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, MouseEventHandler } from 'react';
 import './styles.scss';
 import InputField from '../inputField';
 import {IngredientType} from '../../state/groceriesSlice/requestsModels';

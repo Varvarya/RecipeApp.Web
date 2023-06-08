@@ -1,8 +1,16 @@
-# Getting Started with Create React App
+# RecipeApp.Web
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+RecipeApp is an app to streamline your routine regarding food. It will help you find the perfect recipe for you in seconds and save you tons of time
 
-## Available Scripts
+## Installation
+
+You can download it on your device with [git].
+
+```bash
+git clone https://github.com/Varvarya/RecipeApp.Web.git
+```
+
+## Usage
 
 In the project directory, you can run:
 
@@ -10,9 +18,6 @@ In the project directory, you can run:
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
 
 ### `npm test`
 

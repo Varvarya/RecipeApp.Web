@@ -4,13 +4,15 @@
 @import "../../styles/_gradients.scss";
 
 .search-container {
-  display: flex;
-  flex: 1;
+  position: relative;
   flex-direction: column;
   align-items: flex-start;
+  min-height: 60px;
 }
 
 .select {
+  position: absolute;
+  z-index: 5;
   max-height: 20vh;
   width: 90%;
   overflow-y: auto;
