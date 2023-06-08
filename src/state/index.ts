@@ -1,6 +1,9 @@
-import api from './api';
+import {httpClient} from './api';
 import {StoreType} from './store';
+import {API_URL} from '../consts/api';
 
+
+const api = httpClient.getInstance(API_URL);
 const interceptor = (store: StoreType) => {
 	api.interceptors.request.use(
 		(config) => {
@@ -16,7 +19,7 @@ const interceptor = (store: StoreType) => {
 		}
 	);
 
-	const { dispatch } = store;
+	const {dispatch} = store;
 
 	api.interceptors.response.use(
 		(next) => {

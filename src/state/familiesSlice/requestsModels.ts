@@ -1,4 +1,4 @@
-export type familyMemberModel =  {
+export type FamilyMemberModel = {
     id: number,
     externalUserId: number,
     name: string,
@@ -7,18 +7,18 @@ export type familyMemberModel =  {
     info: string
 }
 
-export type familyModel =
+export type FamilyModel =
     {
         id: number,
         name: string,
         info: string,
-        familyMembers: familyMemberModel[]
+        familyMembers: FamilyMemberModel[]
     }
 
 export type getUserFamiliesModel = {
-    families: familyModel[],
+    families: FamilyModel[],
     resultsAmount: number
-    }
+}
 
 export type addFamiliesModel = {
     id?: number,

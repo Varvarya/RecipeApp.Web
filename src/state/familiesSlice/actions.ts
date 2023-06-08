@@ -1,8 +1,11 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import api from '../api';
+import {httpClient} from '../api';
 import getExceptionPayload from '../errors';
 import {APIError} from '../types';
 import {addFamiliesModel, addFamilyMemberModel, getUserFamiliesModel} from './requestsModels';
+import {API_URL} from '../../consts/api';
+
+const api = httpClient.getInstance(API_URL);
 
 const getUserFamilies = createAsyncThunk<getUserFamiliesModel, void, { rejectValue: APIError }>(
 	'/getFamilies',
@@ -67,6 +70,18 @@ const addFamilyMember = createAsyncThunk<boolean, addFamilyMemberModel, { reject
 	}
 );
 
+const editFamilyMember = createAsyncThunk<boolean, addFamilyMemberModel, { rejectValue: APIError }>(
+	'/editFamilyMember',
+	async (data, {rejectWithValue}) => {
+		try {
+			const res = await api.put('/FamilyMember', data);
+			return res.data;
+		} catch (ex) {
+			return rejectWithValue(getExceptionPayload(ex));
+		}
+	}
+);
+
 const deleteFamilyMember = createAsyncThunk<boolean, number, { rejectValue: APIError }>(
 	'/deleteFamilyMember',
 	async (familyMemberId, {rejectWithValue}) => {
@@ -79,4 +94,4 @@ const deleteFamilyMember = createAsyncThunk<boolean, number, { rejectValue: APIE
 	}
 );
 
-export {getUserFamilies, addFamily, editFamily, deleteFamily, addFamilyMember, deleteFamilyMember};
+export {getUserFamilies, addFamily, editFamily, deleteFamily, addFamilyMember, editFamilyMember, deleteFamilyMember};

@@ -5,9 +5,9 @@
 
 table {
   border-style: solid;
+  background-color: theme-color('opposite-light');
   border-width: theme-sizes('controls-borders-width');
   border-color: theme-color('border');
-  background-color: theme-color('light-blue');
   width: 100%;
   border-collapse: collapse;
 
@@ -63,14 +63,17 @@ table tfoot td {
   font-size: 13px;
 }
 
-table tfoot .links {
-  text-align: right;
+.table-controllers {
+  display: flex;
+  flex: 1;
+  align-self: center;
+  width: 100%;
+  column-gap: 4px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 
-table tfoot .links a {
-  display: inline-block;
-  background: #FFFFFF;
-  color: #A40808;
-  padding: 2px 8px;
-  border-radius: 5px;
+.pages-container {
+  min-width: 250px;
 }

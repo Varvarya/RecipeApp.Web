@@ -1,6 +1,7 @@
 @import "./src/styles/_colors.scss";
 @import "./src/styles/_sizes.scss";
 @import "./src/styles/typography";
+@import "./src/styles/gradients";
 
 h1 {
   font-family: theme-fonts('title'), monospace;
@@ -40,6 +41,17 @@ h4 {
   text-align: center;
   cursor: default;
   margin: 0;
+  text-wrap: avoid;
+}
+
+h5 {
+  font-family: theme-fonts('text'), monospace;
+  font-weight: theme-font-weights('h5');
+  font-size: theme-font-sizes('h5');
+  color: theme-color('text');
+  text-align: center;
+  cursor: default;
+  margin: 0;
 }
 
 a {
@@ -55,8 +67,55 @@ a {
   cursor: pointer;
 }
 
+.small-button {
+  background-color: theme-color('fair');
+  padding: theme-sizes('small-column-gap');
+  border: theme-color('primary') solid 2px;
+  border-radius: 20%;
+  max-height: theme-sizes('small-icon-height');
+  max-width: theme-sizes('small-icon-height');
+  box-shadow: 2px 2px 2px #9ea3b5,
+  -2px -2px 2px #ffffff;
+}
+
 span {
   display: flex;
+  flex: 1;
+  width: 100%;
   flex-direction: row;
   column-gap: 4px;
+  align-items: center;
+}
+
+.column {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.row {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  column-gap: 4px;
+}
+
+select {
+  background-color: theme-color('light-blue');
+  font-family: theme-fonts('text'), monospace;
+  max-height: theme-sizes('big-icon-width');
+  border-radius: 8px;
+  border: theme-color('primary') solid 2px;
+  box-shadow: 2px 2px 2px #9ea3b5,
+  -2px -2px 2px #ffffff;
+}
+
+input {
+  background-color: transparent;
+  font-family: theme-fonts('text'), monospace;
+  max-height: theme-sizes('big-icon-width');
+  border-radius: 8px;
+  border: none;
 }

@@ -8,7 +8,8 @@ import {
 	analyzePhotoAction,
 	getIngredientsListAction,
 	getStoredIngredientsAction,
-	postStoredIngredientsAction
+	postStoredIngredientsAction,
+	putStoredIngredientsAction
 } from '../../state/groceriesSlice/actions';
 import IngredientItem from './components/IngredientItem';
 import {IngredientType} from '../../state/groceriesSlice/requestsModels';
@@ -16,15 +17,19 @@ import ModalWindow from '../../components/modalWindow';
 import SearchField from '../../components/searchField';
 import {RootState} from '../../state/store';
 import Table from '../../components/table';
+import moment from 'moment';
+import ChangeModel from '../../utils/ingredientModelRewriter';
 
 type GroceriesPageProps = {
     sendPhoto: any,
-    getIngredientsListAction: any,
-    groceries: IngredientType [],
+    getIngredientsList: any,
+    stored: IngredientType [],
     recognized: IngredientType [],
     possibleGroceries: IngredientType [],
     getStoredIngredients: any,
-    postStoredIngredients: any
+    putStoredIngredients: any,
+    postStoredIngredients: any,
+    loading: boolean
 }
 
 type modalState = {
@@ -34,14 +39,16 @@ type modalState = {
 }
 
 const GroceriesPage: React.FC<GroceriesPageProps> = ({
+	loading,
 	sendPhoto,
-	getIngredientsListAction,
-	groceries = [{id: 1, name: 'Name', amount: 1, unit: 'unit'}],
+	getIngredientsList,
+	getStoredIngredients,
+	putStoredIngredients,
+	stored = [],
 	recognized = [],
 	possibleGroceries = [],
 	postStoredIngredients
 }) => {
-
 	const [modalState, setModalState] = useState<modalState>({
 		preview: undefined,
 		visible: false,
@@ -50,9 +57,15 @@ const GroceriesPage: React.FC<GroceriesPageProps> = ({
 
 	const [searchText, setSearchText] = useState('');
 
-	const [groceriesList, setGroceriesList] = useState({stored: groceries, recognized: recognized});
+	const [groceriesList, setGroceriesList] = useState({
+		searched: possibleGroceries,
+		stored: stored,
+		recognized: recognized
+	});
 
 	useEffect(() => {
+		getStoredIngredients();
+
 		if (!modalState.selectedFile) {
 			setModalState({...modalState, preview: undefined});
 			return;
@@ -62,7 +75,7 @@ const GroceriesPage: React.FC<GroceriesPageProps> = ({
 		setModalState({...modalState, preview: objectUrl});
 
 		return () => URL.revokeObjectURL(objectUrl);
-	}, [modalState.visible, groceries, groceriesList, possibleGroceries, recognized]);
+	}, []);
 
 	const onSelectFile = (e: any) => {
 		if (!e.target.files || e.target.files.length === 0) {
@@ -81,22 +94,30 @@ const GroceriesPage: React.FC<GroceriesPageProps> = ({
 
 	const search = (e: ChangeEvent<HTMLInputElement>) => {
 		setSearchText(e.target.value);
-		getIngredientsListAction(e.target.value);
+		getIngredientsList(e.target.value);
+		setGroceriesList({...groceriesList, searched: possibleGroceries});
 	};
 
-	const select = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+	const select = (ingredient: IngredientType) => {
 		setSearchText('');
-		console.log((e.target as HTMLElement).innerText);
+		postStoredIngredients([{
+			ingredientId: ingredient.id,
+			amount: 1,
+			expirationDate: moment.utc(),
+			lastModifiedDate: moment.utc()
+		}]);
+		getStoredIngredients();
 	};
 
 	const changeAmount = (amount: number, index: number) => {
-		const res = groceriesList.stored;
-		if (amount !== 0) {
-			res[index].amount = amount;
-		} else {
-			res.splice(index, 1);
-		}
-		setGroceriesList({...groceriesList, stored: res});
+		console.log(amount, index);
+		const res = [...groceriesList.recognized.slice(0, index), {
+			...groceriesList.recognized[index],
+			amount: amount
+		}, ...groceriesList.recognized.slice(index + 1, groceriesList.recognized.length)];
+
+		console.log('Res', res);
+		setGroceriesList({...groceriesList, recognized: res});
 	};
 
 	return (
@@ -126,9 +147,10 @@ const GroceriesPage: React.FC<GroceriesPageProps> = ({
 							</div>
 						</div>
 						<span>
-							<Button color='opposite' onClick={analyzePhoto} text={'Upload'}/>
+							<Button color='opposite' onClick={analyzePhoto} text={'Upload'} loading={loading}/>
 							{!!groceriesList.recognized &&
-                                <Button text={'Save'} onClick={() => console.log(groceriesList.recognized)}/>}
+                                <Button text={'Save'}
+                                	onClick={() => postStoredIngredients(ChangeModel(groceriesList.recognized))}/>}
 						</span>
 					</ModalWindow>}
 					<div>
@@ -138,16 +160,15 @@ const GroceriesPage: React.FC<GroceriesPageProps> = ({
 							onChange={search}
 							onSelect={select}
 							name={'Search'}
-							values={possibleGroceries.map((e) => e.name)}
+							values={groceriesList.searched}
 						/>
 						<Table data={groceriesList.stored}/>
 					</div>
 					<div className='row'>
-						<Button text={'Save'} onClick={() => postStoredIngredients(groceriesList)}/>
+						<Button text={'Save'} onClick={() => putStoredIngredients(groceriesList)}/>
 						<Button text={'Add photo'} color='opposite'
 							onClick={() => setModalState({...modalState, visible: true})}/>
 					</div>
-
 				</div>
 			</Window>
 		</div>
@@ -155,15 +176,33 @@ const GroceriesPage: React.FC<GroceriesPageProps> = ({
 };
 
 const mapStateToProps = ({groceries}: RootState) => ({
-	groceries: groceries.groceries,
+	stored: groceries.storedGroceries,
 	possibleGroceries: groceries.searchRes,
 	recognized: groceries.recognizedGroceries,
+	loading: groceries.loading,
 });
 const mapDispatchToProps = {
 	sendPhoto: analyzePhotoAction,
-	getIngredientsListAction: getIngredientsListAction,
+	getIngredientsList: getIngredientsListAction,
 	getStoredIngredients: getStoredIngredientsAction,
+	putStoredIngredients: putStoredIngredientsAction,
 	postStoredIngredients: postStoredIngredientsAction
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(GroceriesPage);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

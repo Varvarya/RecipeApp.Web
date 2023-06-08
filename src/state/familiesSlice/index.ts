@@ -1,14 +1,14 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {getUserFamilies, addFamily , editFamily, deleteFamily} from './actions';
+import {addFamily, deleteFamily, editFamily, getUserFamilies} from './actions';
 import {APIError, APIStatus} from '../types';
 import {RootState} from '../store';
-import {familyModel} from './requestsModels';
+import {FamilyModel} from './requestsModels';
 
 type StateType = {
-	families: familyModel[],
-	status: APIStatus,
-	loading: boolean,
-	error?: APIError,
+    families: FamilyModel[],
+    status: APIStatus,
+    loading: boolean,
+    error?: APIError,
 }
 
 const initialState: StateType = {

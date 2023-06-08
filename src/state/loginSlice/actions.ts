@@ -20,12 +20,11 @@ const loginAction = createAsyncThunk<void, loginModel, { rejectValue: APIError }
 	}
 );
 
-const registrationAction = createAsyncThunk<any, regisrationModel, any>(
+const registrationAction = createAsyncThunk<void, regisrationModel, { rejectValue: APIError }>(
 	'/register',
 	async (data, {rejectWithValue}) => {
 		sessionStorage.removeItem('token');
 		const res = await api.post('/User', data);
-		console.log('Res ', res);
 
 		if (res.status == 200) {
 			return res.data;

@@ -17,7 +17,9 @@ $base-font-size: 20px;
 //Typography
 $h3-font-size: 20px;
 $h4-font-size: 16px;
-$h4-font-weigth: 500;
+$h5-font-size: 12px;
+$h4-font-weight: 500;
+$h5-font-weight: 300;
 
 //Button
 $base-button-font-family: 'Space Mono', monospace;
@@ -32,26 +34,28 @@ $base-fonts: (
 );
 
 $base-fonts-inscriptions: (
-       title: $base-title-font-inscription,
-       input: $base-font-inscriptions,
-       text: $base-font-inscriptions,
-       button: $base-font-inscriptions,
+        title: $base-title-font-inscription,
+        input: $base-font-inscriptions,
+        text: $base-font-inscriptions,
+        button: $base-font-inscriptions,
 );
 
 $base-font-weights: (
-      title: $base-title-weight,
-      input: $base-input-font-weight,
-      text: $base-font-weight,
-      button: $base-button-font-weight,
-      h4: $h4-font-weigth,
+        title: $base-title-weight,
+        input: $base-input-font-weight,
+        text: $base-font-weight,
+        button: $base-button-font-weight,
+        h4: $h4-font-weight,
+        h5: $h5-font-weight,
 );
 
 $base-font-sizes: (
-      title: $base-title-size,
-      input: $base-font-size,
-      text: $base-font-size,
-      h4: $h4-font-size,
-      button: $base-button-font-size
+        title: $base-title-size,
+        input: $base-font-size,
+        text: $base-font-size,
+        h4: $h4-font-size,
+        h5: $h5-font-size,
+        button: $base-button-font-size
 );
 
 @function theme-fonts($key) {

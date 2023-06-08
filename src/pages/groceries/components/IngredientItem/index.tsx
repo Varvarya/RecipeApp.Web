@@ -1,13 +1,11 @@
-import React, {ChangeEvent} from 'react';
+import React from 'react';
 import './styles.scss';
 import TrashIcon from '../../../../assets/Icons/TrashBin.png';
-import PenIcon from '../../../../assets/Icons/Pen.png';
-import AddUser from '../../../../assets/Icons/AddUser.png';
 import {IngredientType} from '../../../../state/groceriesSlice/requestsModels';
 
 type IngredientItemProps = {
-    ingredient: IngredientType,
-    onClickFunc: (arg: string) => void,
+	ingredient: IngredientType,
+	onClickFunc: (arg: string) => void,
 	changeAmount: (amount: number, index: number) => void,
 	index: number
 }
@@ -17,13 +15,12 @@ const IngredientItem: React.FC<IngredientItemProps> = ({ingredient, onClickFunc,
 		onClickFunc(e.target.id);
 	};
 
-	return (
-		<div className='ingredient-container'>
-			<h4>{ingredient.name}</h4>
-			<input className='num-input' type="number" step="1" min="1" max="50" value={ingredient.amount || 1} name={ingredient.name} key={index} onChange={(e) => changeAmount(parseInt(e.target.value), index)}/>
-			<img className='small-icon' src={TrashIcon} id={'Delete'} onClick={handleClick}/>
-		</div>
-	);
+	return (<div className='ingredient-container'>
+		<h4>{ingredient.name}</h4>
+		<input className='num-input' type="number" step="1" min="1" max="50" value={ingredient.amount || 1}
+			   name={ingredient.name} key={index} onChange={(e) => changeAmount(parseInt(e.target.value), index)}/>
+		<img className='small-icon' src={TrashIcon} id={'Delete'} onClick={handleClick}/>
+	</div>);
 };
 
 export default IngredientItem;

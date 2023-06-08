@@ -1,6 +1,4 @@
 import {APIError} from './types';
-import objMethods from '../utils/object';
-import {type} from 'os';
 
 export const InternalError = {
 	errors: ['Internal error during request.'],

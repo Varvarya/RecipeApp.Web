@@ -30,12 +30,10 @@
 }
 
 .list {
-  align-self: flex-start;
-}
-
-.row {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  align-self: flex-start;
+  row-gap: 20px;
 }
 
 .item {

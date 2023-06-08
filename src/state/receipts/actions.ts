@@ -1,12 +1,15 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import api from '../api';
+import {httpClient} from '../api';
 import getExceptionPayload from '../errors';
-import { APIError } from '../types';
-import { queryParams } from './requestsModels';
+import {APIError} from '../types';
+import {queryParams} from './requestsModels';
+import {API_URL} from '../../consts/api';
 
-const filterReceiptsAction = createAsyncThunk<any, queryParams, {rejectValue: APIError}>(
+const api = httpClient.getInstance(API_URL);
+
+const filterReceiptsAction = createAsyncThunk<any, queryParams, { rejectValue: APIError }>(
 	'/receipts',
-	async (params, { rejectWithValue }) => {
+	async (params, {rejectWithValue}) => {
 		try {
 			const res = await api.get('/Recipe', {params});
 

@@ -29,12 +29,46 @@
     }
   }
 
+  &.red {
+    background-color: theme-color('info-error');
+
+    &:hover {
+      cursor: pointer;
+      background-color: theme-color('info-error-shadow');
+    }
+  }
+
+  &.small {
+    width: 160px;
+    height: 30px;
+    font-size: theme-font-sizes('h5');
+  }
+
+  &.disabled {
+    background-color: theme-color('accent-shadow');
+  }
+
+  &.round {
+    width: 30px;
+    border-radius: 30px;
+    border: theme-color('primary') solid 2px;
+    box-shadow: 2px 2px 2px #9ea3b5,
+    -2px -2px 2px #ffffff;
+  }
+
   &.opposite {
     background-color: theme-color('opposite');
 
     &:hover {
       cursor: pointer;
       background-color: theme-color('opposite-shadow');
+    }
+
+    &.round {
+      min-width: 30px;
+      border-radius: 30px;
+      box-shadow: 2px 2px 2px #9ea3b5,
+      -2px -2px 2px #ffffff;
     }
   }
 
