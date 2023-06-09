@@ -3,13 +3,18 @@ import loginReducer from './loginSlice';
 import groceriesReducer from './groceriesSlice';
 import familiesReducer from './familiesSlice';
 import forbiddenReducer from './forbiddenSlice';
+import mealPlanReducer from './meal_plan';
+import recipesReducer from './recipes';
+
 
 const store = configureStore({
 	reducer: {
 		login: loginReducer,
 		groceries: groceriesReducer,
 		families: familiesReducer,
-		forbidden: forbiddenReducer
+		forbidden: forbiddenReducer,
+		mealPlan: mealPlanReducer,
+		recipes: recipesReducer
 	},
 });
 

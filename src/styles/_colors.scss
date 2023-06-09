@@ -1,4 +1,6 @@
 $color-base-purple: #4633C9;
+$color-base-light-purple: #a59ffa;
+$color-light-green: #D1E5D9;
 $color-base-green: #94D3AE;
 $color-shadow-green: #40AD6D;
 $color-base-light-pink: #FFE7EF;
@@ -22,11 +24,13 @@ $color-info-success: #8ECB78;
 
 $theme-colors: (
         primary: $color-base-purple,
+        primary-light: $color-base-light-purple,
         secondary: $color-base-pink,
         light-blue: $color-base-light-blue,
         light-pink: $color-base-light-pink,
         fair: $color-base-nearly-white,
         accent: $color-base-green,
+        accent-light: $color-light-green,
         accent-shadow: $color-shadow-green,
         opposite: $color-info-warning,
         opposite-light: $color-info-light-warning,

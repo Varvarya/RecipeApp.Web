@@ -24,7 +24,7 @@ export type queryParams = {
     acceptableMatchIngredientsPercentage?: number
 };
 
-export type Receipt = {
+export type Recipe = {
     ingredientsMatchingPercentage: number,
     id: number,
     title: string,

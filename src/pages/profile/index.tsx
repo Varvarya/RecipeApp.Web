@@ -20,7 +20,16 @@ import ForbiddenModal from './forbiddenModal';
 import {getIngredientsListAction} from '../../state/groceriesSlice/actions';
 import {IngredientType} from '../../state/groceriesSlice/requestsModels';
 import {Nutrient} from '../../state/forbiddenSlice/requestsModels';
-import {getNutrientsListAction, getUserForbiddenIngredientsAction} from '../../state/forbiddenSlice/actions';
+import {
+	addUserForbiddenIngredientsAction,
+	addUserForbiddenNutrientAction,
+	deleteUserForbiddenIngredientsAction,
+	getNutrientsListAction,
+	getUserForbiddenIngredientsAction,
+	getUserForbiddenNutrientAction,
+	updateUserForbiddenNutrientAction
+} from '../../state/forbiddenSlice/actions';
+import groceries from '../groceries';
 
 type ProfilePageProps = {
     user: any,
@@ -37,8 +46,14 @@ type ProfilePageProps = {
     editFamily: (data: addFamiliesModel) => void,
     getIngredientsList: any,
     getForbiddenNutrients: any,
-    forbiddenGroceries: IngredientType[],
-    forbiddenNutrients: Nutrient[]
+    getUserForbiddenIngredients: any,
+    forbiddenIngredients: IngredientType[],
+    forbiddenNutrients: Nutrient[],
+
+    updateForbiddenNutrients: any,
+    addForbiddenNutrients: any,
+    addForbiddenIngredients: any,
+    deleteForbiddenIngredient: any,
 }
 
 const UserProfilePage: React.FC<ProfilePageProps> = ({
@@ -56,8 +71,13 @@ const UserProfilePage: React.FC<ProfilePageProps> = ({
 	editFamily,
 	getIngredientsList,
 	getForbiddenNutrients,
-	forbiddenGroceries,
-	forbiddenNutrients
+	forbiddenIngredients,
+	forbiddenNutrients,
+	updateForbiddenNutrients,
+	addForbiddenNutrients,
+	addForbiddenIngredients,
+	deleteForbiddenIngredient,
+	getUserForbiddenIngredients,
 }) => {
 	const [modalState, setModalState] = useState({visibility: false, func: 'Add', values: {name: '', info: ''}, id: 0});
 	const [forbiddenModalState, setForbiddenModalState] = useState({
@@ -65,13 +85,18 @@ const UserProfilePage: React.FC<ProfilePageProps> = ({
 		searchText: '',
 		activeTab: 'Nutrients',
 		groceries: possibleGroceries,
-		forbiddenGroceries: forbiddenGroceries,
+		forbiddenIngredients: forbiddenIngredients,
 		nutrients: nutrients,
-		forbiddenNutrients: forbiddenNutrients
+		forbiddenNutrients: forbiddenNutrients,
+		activeNutrient: undefined,
+		activeIngredient: groceries[0],
+		percent: 0,
+		userId: 0
 	});
 
 	useEffect(() => {
 		getFamilies();
+		getUserForbiddenIngredients(11);
 		getNutrients();
 	}, []);
 
@@ -86,7 +111,7 @@ const UserProfilePage: React.FC<ProfilePageProps> = ({
 
 	const onSelect = (el: IngredientType) => {
 		getIngredientsList(el.name);
-		setForbiddenModalState({...forbiddenModalState, searchText: el.name, groceries: []});
+		setForbiddenModalState({...forbiddenModalState, searchText: el.name, groceries: [], activeIngredient: el});
 	};
 
 	const handleClick = (arg?: string) => {
@@ -128,11 +153,47 @@ const UserProfilePage: React.FC<ProfilePageProps> = ({
 
 	const openForbiddenModal = (id: number) => {
 		getForbiddenNutrients(id);
+		getUserForbiddenIngredients(id);
 		setForbiddenModalState({
 			...forbiddenModalState,
 			visibility: true,
-			forbiddenNutrients: forbiddenNutrients || []
+			forbiddenNutrients: forbiddenNutrients || [],
+			nutrients: nutrients,
+			userId: id,
 		});
+	};
+
+	const forbid = () => {
+
+		console.log('State', forbiddenModalState);
+		if (forbiddenModalState.activeTab === 'Ingredients') {
+			forbiddenModalState.activeIngredient && forbidIngredient(forbiddenModalState.activeIngredient);
+		} else {
+			forbiddenModalState.activeNutrient && forbidNutrient(forbiddenModalState.activeNutrient);
+		}
+	};
+	const forbidIngredient = (ing: IngredientType) => {
+		if (forbiddenModalState.forbiddenNutrients.some((e) => e.id === ing.id)) {
+			deleteForbiddenIngredient({ingredientId: ing.id});
+		} else {
+			addForbiddenIngredients({ingredientId: ing.id, externalUserId: forbiddenModalState.userId});
+		}
+		getUserForbiddenIngredients(forbiddenModalState.userId);
+	};
+	const forbidNutrient = (nutrient: Nutrient) => {
+		if (forbiddenModalState.forbiddenNutrients.some((e) => e.nutrientId === nutrient.id)) {
+			updateForbiddenNutrients({
+				nutrientId: nutrient.id,
+				externalUserId: 11, requiredPercentageOfDailyNeeds: forbiddenModalState.percent
+			});
+		} else {
+			addForbiddenNutrients({
+				nutrientId: nutrient.id,
+				externalUserId: 11, requiredPercentageOfDailyNeeds: forbiddenModalState.percent
+			});
+		}
+
+		getForbiddenNutrients(forbiddenModalState.userId);
 	};
 
 	return (
@@ -155,7 +216,9 @@ const UserProfilePage: React.FC<ProfilePageProps> = ({
 							modalState={forbiddenModalState}
 							setModalState={setForbiddenModalState}
 							onChange={search}
-							onSelect={onSelect}/> : undefined}
+							onSelect={onSelect}
+							onClick={forbid}
+						/> : undefined}
 					<label>My families</label>
 					<div className='list'>
 						{families.map((e: any, index: number) => (
@@ -168,7 +231,7 @@ const UserProfilePage: React.FC<ProfilePageProps> = ({
 								onClickFunc={handleClick}
 							/>))}
 					</div>
-					<Button text={'Add family'} onClick={() => setModalState({
+					<Button text={'Add'} onClick={() => setModalState({
 						visibility: true,
 						func: 'Add',
 						values: {name: '', info: ''},
@@ -185,7 +248,7 @@ const mapStateToProps = ({families, groceries, forbidden}: any) => ({
 	families: families.families,
 	possibleGroceries: groceries.searchRes,
 	nutrients: forbidden.nutrients,
-	forbiddenGroceries: forbidden.forbiddenGroceries,
+	forbiddenIngredients: forbidden.forbiddenIngredients,
 	forbiddenNutrients: forbidden.forbiddenNutrients
 });
 const mapDispatchToProps = {
@@ -198,6 +261,11 @@ const mapDispatchToProps = {
 	editFamilyMember: editFamilyMember,
 	deleteFamilyMember: deleteFamilyMember,
 	getIngredientsList: getIngredientsListAction,
-	getForbiddenNutrients: getUserForbiddenIngredientsAction
+	getForbiddenNutrients: getUserForbiddenNutrientAction,
+	updateForbiddenNutrients: updateUserForbiddenNutrientAction,
+	addForbiddenNutrients: addUserForbiddenNutrientAction,
+	getUserForbiddenIngredients: getUserForbiddenIngredientsAction,
+	addForbiddenIngredients: addUserForbiddenIngredientsAction,
+	deleteForbiddenIngredient: deleteUserForbiddenIngredientsAction,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(UserProfilePage);

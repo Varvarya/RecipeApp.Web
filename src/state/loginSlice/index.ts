@@ -2,9 +2,10 @@ import {createReducer, createSlice, PayloadAction, SerializedError} from '@redux
 import {loginAction, registrationAction} from './actions';
 import {APIError, APIStatus} from '../types';
 import {RootState} from '../store';
+import {UserType} from './requestsModels';
 
 type StateType = {
-    username?: string,
+    user?: UserType,
     status: APIStatus,
     token?: string,
     loading: boolean,
@@ -12,7 +13,7 @@ type StateType = {
 }
 
 const initialState: StateType = {
-	username: '',
+	user: undefined,
 	status: APIStatus.IDLE,
 	token: undefined,
 	loading: false,
@@ -25,10 +26,10 @@ const login = createReducer(initialState, builder => {
 			state.status = APIStatus.PENDING;
 			state.loading = true;
 		})
-		.addCase(loginAction.fulfilled, (state, action: PayloadAction<{ userInfo: { userName: string } } | void>) => {
+		.addCase(loginAction.fulfilled, (state, action: PayloadAction<{ userInfo: UserType } | void>) => {
 			state.status = APIStatus.FULFILLED;
 			state.loading = false;
-			if (action.payload?.userInfo) state.username = action.payload?.userInfo.userName;
+			if (action.payload?.userInfo) state.user = action.payload?.userInfo;
 		})
 		.addCase(loginAction.rejected, (state, action) => {
 			state.status = APIStatus.REJECTED;

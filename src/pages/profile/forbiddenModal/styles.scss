@@ -1,6 +1,7 @@
 @import "./src/styles/_colors.scss";
 @import "./src/styles/_sizes.scss";
 @import "./src/styles/typography";
+@import "./src/styles/gradients";
 
 .pop-up-container {
   background-color: theme-color('background');
@@ -76,4 +77,23 @@
 
 .container-nutrients {
   margin: 30px 0 20px 0;
+}
+
+.small-input {
+  max-width: 42px;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: theme-shadows('input');
+  background-color: theme-color('light-blue');
+  border-style: solid;
+  border-color: theme-color('border');
+  border-width: theme-sizes('controls-borders-width');
+  max-height: theme-sizes('input-height');
+  padding: theme-sizes('small-column-gap') theme-sizes('small-paper-padding');
+  font-family: theme-fonts('input'), monospace;
+  font-weight: theme-font-weights('input');
+  font-size: theme-font-sizes('input');
+  color: theme-color('text');
 }

@@ -58,6 +58,7 @@ export const forbiddenSlice = createSlice({
 			.addCase(getUserForbiddenIngredientsAction.fulfilled, (state, action: PayloadAction<{ forbiddenIngredients: IngredientType[] } | void>) => {
 				console.log(action.payload);
 				state.status = APIStatus.FULFILLED;
+				console.log('forbid ', action.payload);
 				state.forbiddenIngredients = action.payload?.forbiddenIngredients || [];
 				state.loading = false;
 			})

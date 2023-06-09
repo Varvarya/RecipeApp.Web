@@ -7,13 +7,13 @@ import {API_URL} from '../../consts/api';
 
 const api = httpClient.getInstance(API_URL);
 
-const filterReceiptsAction = createAsyncThunk<any, queryParams, { rejectValue: APIError }>(
-	'/receipts',
+const filterRecipesAction = createAsyncThunk<any, queryParams, { rejectValue: APIError }>(
+	'/recipes',
 	async (params, {rejectWithValue}) => {
 		try {
 			const res = await api.get('/Recipe', {params});
 
-
+			return res;
 		} catch (ex) {
 			return rejectWithValue(getExceptionPayload(ex));
 		}
@@ -21,4 +21,4 @@ const filterReceiptsAction = createAsyncThunk<any, queryParams, { rejectValue: A
 );
 
 
-export {filterReceiptsAction};
+export {filterRecipesAction};

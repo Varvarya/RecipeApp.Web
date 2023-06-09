@@ -13,4 +13,16 @@ const ChangeModel = (analyzeModel: IngredientType[]) => {
 	return res;
 };
 
+const PutModel = (initialModel: IngredientType[]) => {
+	const res = initialModel.map((e) => {
+		return {
+			amount: e.amount,
+			expirationDate: e.expirationDate,
+			id: e.id
+		};
+	});
+	return {storedIngredients: res};
+};
+
 export default ChangeModel;
+export {PutModel};

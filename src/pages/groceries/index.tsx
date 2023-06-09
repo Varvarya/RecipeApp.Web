@@ -18,7 +18,7 @@ import SearchField from '../../components/searchField';
 import {RootState} from '../../state/store';
 import Table from '../../components/table';
 import moment from 'moment';
-import ChangeModel from '../../utils/ingredientModelRewriter';
+import ChangeModel, {PutModel} from '../../utils/ingredientModelRewriter';
 
 type GroceriesPageProps = {
     sendPhoto: any,
@@ -162,10 +162,11 @@ const GroceriesPage: React.FC<GroceriesPageProps> = ({
 							name={'Search'}
 							values={groceriesList.searched}
 						/>
-						<Table data={groceriesList.stored}/>
+						<Table tableData={groceriesList.stored}
+							setTableData={(data) => setGroceriesList({...groceriesList, stored: data})}/>
 					</div>
 					<div className='row'>
-						<Button text={'Save'} onClick={() => putStoredIngredients(groceriesList)}/>
+						<Button text={'Save'} onClick={() => putStoredIngredients(PutModel(groceriesList.stored))}/>
 						<Button text={'Add photo'} color='opposite'
 							onClick={() => setModalState({...modalState, visible: true})}/>
 					</div>

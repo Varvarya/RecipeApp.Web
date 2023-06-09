@@ -112,6 +112,20 @@ select {
   -2px -2px 2px #ffffff;
 }
 
+.select {
+  max-height: 20vh;
+  width: 90%;
+  min-width: 200px;
+  overflow-y: auto;
+  background-color: theme-color('light-blue');
+  margin: -16px theme-sizes('small-paper-padding') 0 theme-sizes('small-paper-padding');
+  padding: 4px 0;
+}
+
+.red {
+  background-color: theme-color('light-pink');
+}
+
 input {
   background-color: transparent;
   font-family: theme-fonts('text'), monospace;

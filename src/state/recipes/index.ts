@@ -1,38 +1,36 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {APIError, APIStatus} from '../types';
-import {RootState} from '../store';
-import {filterReceiptsAction} from './actions';
-import {Receipt} from './requestsModels';
+import {Recipe} from './requestsModels';
+import {filterRecipesAction} from './actions';
 
 type StateType = {
-	receipts?: Receipt[],
-	status: APIStatus,
-	token?: string,
-	loading: boolean,
-	error?: APIError,
+    recipes?: Recipe[],
+    status: APIStatus,
+    loading: boolean,
+    error?: APIError,
 }
 
 const initialState: StateType = {
-	receipts: [],
+	recipes: [],
 	status: APIStatus.IDLE,
-	token: undefined,
 	loading: false,
 	error: undefined
 };
 export const receiptsSlice = createSlice({
-	name: 'receipt',
+	name: 'recipes',
 	initialState: initialState,
 	reducers: {},
 	extraReducers: (builder) => {
 		builder
-			.addCase(filterReceiptsAction.pending, (state) => {
+			.addCase(filterRecipesAction.pending, (state) => {
 				state.status = APIStatus.PENDING;
 			})
-			.addCase(filterReceiptsAction.fulfilled, (state, action) => {
+			.addCase(filterRecipesAction.fulfilled, (state, action) => {
 				state.status = APIStatus.FULFILLED;
-				state.receipts = action.payload;
+				console.log(action.payload.data);
+				if (action.payload) state.recipes = action.payload.data.recipes;
 			})
-			.addCase(filterReceiptsAction.rejected, (state, action) => {
+			.addCase(filterRecipesAction.rejected, (state, action) => {
 				state.status = APIStatus.REJECTED;
 				//state.error = action.error || undefined;
 			});

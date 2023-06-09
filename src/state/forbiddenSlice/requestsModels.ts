@@ -6,6 +6,7 @@ export type ForbiddenNutrientModel = {
 
 export type Nutrient = {
     id: number,
+    nutrientId: number,
     name: string,
     unit: number
 }

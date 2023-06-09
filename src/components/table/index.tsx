@@ -10,7 +10,7 @@ import {
 	Updater,
 	useReactTable
 } from '@tanstack/react-table';
-import React, {useState} from 'react';
+import React from 'react';
 import './styles.scss';
 import Button from '../button';
 import {Filter} from './components';
@@ -22,14 +22,16 @@ declare module '@tanstack/react-table' {
 }
 
 type TableProps = {
-    data: any[]
+    tableData: DataType[],
+    setTableData: (data: DataType[]) => void;
 }
 
 type DataType = {
-    ingredient: string
+    id: number
+    name: string
     amount: number
-    unit: string
-    exp_date: string
+    unit: number
+    expirationDate?: string
 }
 
 const columnHelper = createColumnHelper<DataType>();
@@ -37,11 +39,11 @@ const columnHelper = createColumnHelper<DataType>();
 const defaultColumns = [
 	// Grouping Column
 	columnHelper.group({
-		id: 'Ingredient',
+		id: 'name',
 		footer: info => info.column.id,
 		columns: [
 			// Accessor Column
-			columnHelper.accessor('ingredient', {
+			columnHelper.accessor('name', {
 				cell: info => info.getValue(),
 				header: () => <span>Ingredient</span>,
 				footer: info => info.column.id,
@@ -64,7 +66,7 @@ const defaultColumns = [
 				footer: info => info.column.id,
 			}),
 			// Accessor Column
-			columnHelper.accessor('exp_date', {
+			columnHelper.accessor('expirationDate', {
 				header: () => <span>Exp date</span>,
 				footer: info => info.column.id,
 			}),
@@ -98,8 +100,7 @@ const defaultColumn: Partial<ColumnDef<DataType>> = {
 	},
 };
 
-const CustomTable: React.FC<TableProps> = ({data}) => {
-	const [tableData, setTableData] = useState(data);
+const CustomTable: React.FC<TableProps> = ({tableData, setTableData}) => {
 	const rerender = React.useReducer(() => ({}), {})[1];
 
 	// Define your row shape
@@ -113,16 +114,15 @@ const CustomTable: React.FC<TableProps> = ({data}) => {
 		meta: {
 			updateData: (rowIndex: number, columnId: string, value: string | unknown) => {
 				// Skip page index reset until after next rerender
-				setTableData(old =>
-					old.map((row, index) => {
-						if (index === rowIndex) {
-							return {
-								...old[rowIndex]!,
-								[columnId]: value,
-							};
-						}
-						return row;
-					})
+				setTableData(tableData.map((row: DataType, index: number) => {
+					if (index === rowIndex) {
+						return {
+							...tableData[rowIndex]!,
+							[columnId]: value,
+						};
+					}
+					return row;
+				})
 				);
 			},
 		},
@@ -175,7 +175,7 @@ const CustomTable: React.FC<TableProps> = ({data}) => {
 					);
 				})}
 			</tbody>
-			{data.length > 5 && <tfoot>
+			{tableData.length > 5 && <tfoot>
 				{table.getFooterGroups().map(footerGroup => (
 					<tr key={footerGroup.id}>
 						{footerGroup.headers.map(header => (

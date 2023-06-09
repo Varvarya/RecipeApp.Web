@@ -1,4 +1,4 @@
-export type loginModel = {username: string, password: string};
+export type loginModel = { username: string, password: string };
 
 export type regisrationModel = {
     role?: string,
@@ -7,4 +7,13 @@ export type regisrationModel = {
     confirmPassword: string,
     email: string,
     clientURIForEmailConfirmation?: string
+}
+
+export type UserType = {
+    userId: number,
+    externalUserId: number,
+    userName: string,
+    role: string,
+    registryDate: string,
+    email: string
 }

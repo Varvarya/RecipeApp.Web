@@ -15,6 +15,8 @@ $base-font-weight: 700;
 $base-font-size: 20px;
 
 //Typography
+$h1-font-size: 32px;
+$h2-font-size: 24px;
 $h3-font-size: 20px;
 $h4-font-size: 16px;
 $h5-font-size: 12px;
@@ -53,6 +55,9 @@ $base-font-sizes: (
         title: $base-title-size,
         input: $base-font-size,
         text: $base-font-size,
+        h1: $h1-font-size,
+        h2: $h3-font-size,
+        h3: $h3-font-size,
         h4: $h4-font-size,
         h5: $h5-font-size,
         button: $base-button-font-size

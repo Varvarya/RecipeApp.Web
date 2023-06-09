@@ -1,1 +1,7 @@
-export type IngredientType = { id: number, name: string, amount: number, unit: number };
+export type IngredientType = {
+    id: number,
+    name: string,
+    amount: number,
+    unit: number,
+    expirationDate?: string
+};
