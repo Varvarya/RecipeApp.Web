@@ -52,6 +52,7 @@ const LoginPage: React.FC<LoginPageProps> = ({
 					isPassword
 					isValid={isValid}
 				/>
+				<h4><a>Forgot your password?</a></h4>
 				{(!isValid)
 					? <ErrorText text={'Check your username and password'}/>
 					: <></>}

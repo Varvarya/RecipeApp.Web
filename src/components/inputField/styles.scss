@@ -8,7 +8,7 @@
   flex: 1;
   flex-direction: row;
   column-gap: theme-sizes('small-paper-padding');
-  margin: theme-sizes('small-paper-padding')
+  margin: theme-sizes('small-paper-padding');
 }
 
 .icon {
@@ -58,6 +58,6 @@
 }
 
 .rightIcon {
-  height:theme-sizes('small-icon-height');
+  height: theme-sizes('small-icon-height');
   cursor: pointer;
 }

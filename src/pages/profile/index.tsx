@@ -158,6 +158,7 @@ const UserProfilePage: React.FC<ProfilePageProps> = ({
 			...forbiddenModalState,
 			visibility: true,
 			forbiddenNutrients: forbiddenNutrients || [],
+			forbiddenIngredients: forbiddenIngredients || [],
 			nutrients: nutrients,
 			userId: id,
 		});

@@ -10,6 +10,7 @@
   border-width: theme-sizes('border-width');
   border-color: theme-color('border');
   border-style: solid;
+  max-width: 80vw;
 }
 
 .controls {
@@ -28,24 +29,27 @@
 }
 
 @mixin base-control($type) {
-    background-color: theme-color('info-#{$type}');
-    height: theme-sizes('controls-diameter');
-    width: theme-sizes('controls-diameter');
-    border-radius: theme-sizes('border-radius');
-    border-width: theme-sizes('controls-borders-width');
-    border-color: theme-color('border');
-    border-style: solid;
+  background-color: theme-color('info-#{$type}');
+  height: theme-sizes('controls-diameter');
+  width: theme-sizes('controls-diameter');
+  border-radius: theme-sizes('border-radius');
+  border-width: theme-sizes('controls-borders-width');
+  border-color: theme-color('border');
+  border-style: solid;
 }
 
-.control-close{
+.control-close {
   @include base-control("error");
 }
-.control-hide{
+
+.control-hide {
   @include base-control("warning");
 }
-.control-accept{
+
+.control-accept {
   @include base-control("success");
 }
+
 .content-container {
   display: flex;
   flex-direction: column;
@@ -53,7 +57,7 @@
   row-gap: theme-sizes('small-column-gap');
 }
 
-.children-container{
+.children-container {
   padding: 0 theme-sizes('base-paper-padding');
   justify-items: flex-start;
 }

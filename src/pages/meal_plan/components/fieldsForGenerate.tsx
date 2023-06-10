@@ -5,8 +5,8 @@ import Button from '../../../components/button';
 
 type GenerateInfoProps = {
     close: () => void,
-    values: { name: string; value: number | boolean; step: number; type: string; }[],
-    changeValue: (name: string, value: number | boolean) => void,
+    values: { name: string; value: number | boolean | undefined; step: number; type: string; }[],
+    changeValue: (name: string, value: number | boolean | undefined) => void,
     onClick: () => void,
     loading: boolean
 }
@@ -15,7 +15,7 @@ const GenerateInfo: React.FC<GenerateInfoProps> = ({close, values, changeValue, 
 	return (
 		<ModalWindow title={'Generate'} close={close}>
 			<div>
-				{values.map((el, i) => el.type === 'number' && typeof el.value === 'number' ?
+				{values.map((el, i) => el.type == 'number' && typeof el.value !== 'boolean' ?
 					(<span key={i}>
 						<h4>{el.name}</h4>
 						<input
@@ -29,7 +29,7 @@ const GenerateInfo: React.FC<GenerateInfoProps> = ({close, values, changeValue, 
 							<h4>{el.name}</h4>
 							<input
 								checked={!!el.value}
-								onChange={(e) => changeValue(el.name, el.value)}
+								onChange={(e) => changeValue(el.name, !el.value)}
 								type={el.type}
 							/>
 						</span>

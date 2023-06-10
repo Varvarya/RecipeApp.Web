@@ -5,12 +5,12 @@ import './styles.scss';
 
 type MealsListProps = {
     plan: MealRecipe[],
+    saveRecipeToStorage: any,
 }
 
 
-const MealsList: React.FC<MealsListProps> = ({plan}) => {
+const MealsList: React.FC<MealsListProps> = ({plan, saveRecipeToStorage}) => {
 	const [activeMeal, setActiveMeal] = useState('');
-
 	const toggleActiveMeal = (event: React.MouseEvent<HTMLDivElement>) => {
 		const id = (event.currentTarget as Element).id;
 		if (activeMeal !== id) setActiveMeal(id);
@@ -21,7 +21,7 @@ const MealsList: React.FC<MealsListProps> = ({plan}) => {
 		<div className='column'>
 			{plan.map((el, i) =>
 				<MealRow key={i} el={el.recipe} i={i} isActive={activeMeal === el.recipe.title}
-					onClick={toggleActiveMeal}/>)}
+					onClick={toggleActiveMeal} saveRecipeToStorage={saveRecipeToStorage}/>)}
 		</div>);
 };
 

@@ -23,7 +23,6 @@ const FamilyItem: React.FC<FamilyItemProps> = ({
 	onClickFunc
 }) => {
 	const handleModalOpenClick = (e: any, member?: any) => {
-		alert(e.target.id);
 		if (e.target.id.includes('Edit')) {
 			setModalState({
 				...modalState,

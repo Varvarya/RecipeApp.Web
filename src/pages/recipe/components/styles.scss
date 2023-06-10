@@ -1,0 +1,21 @@
+@import "./src/styles/_gradients.scss";
+@import "./src/styles/_typography.scss";
+
+.calories-container {
+  display: flex;
+  flex: 1;
+  justify-content: space-around;
+  align-items: center;
+  column-gap: 30px;
+  background-color: theme-color('light-blue');
+  border-color: theme-color('primary');
+  border-width: theme-sizes('border-width');
+  border-style: solid;
+  border-radius: 30px;
+  margin-top: 20px;
+  height: 48px;
+}
+
+.thin {
+  font-weight: theme-font-weights('h5');
+}

@@ -1,38 +1,27 @@
 import React from 'react';
+import meals from '../../../consts/meals';
 import {Recipe} from '../../../state/recipes/requestsModels';
+import Button from '../../../components/button';
+import {useHistory} from 'react-router-dom';
 
 type MealRowProps = {
     el: Recipe,
     i: number,
     onClick?: (event: React.MouseEvent<HTMLDivElement>) => void,
 
-    isActive: boolean
+    isActive: boolean,
+    saveRecipeToStorage: any
 }
 
 
-const meals = [
-	{
-		dishType: 'Breakfast',
-		color: 'accent'
-	},
-	{
-		dishType: 'Lunch',
-		color: 'primary'
-	},
-	{
-		dishType: 'Dinner',
-		color: 'secondary'
-	},
-	{
-		dishType: 'Перекус',
-		color: 'opposite'
-	},
-	{
-		dishType: '',
-		color: 'opposite'
-	}
-];
-const MealRow: React.FC<MealRowProps> = ({el, i = 4, onClick, isActive}) => {
+const MealRow: React.FC<MealRowProps> = ({el, i = 4, onClick, isActive, saveRecipeToStorage}) => {
+	const history = useHistory();
+
+	const openRecipe = (el: Recipe) => {
+		saveRecipeToStorage(el);
+		history.push('/recipe/' + el.id);
+	};
+
 	return (
 		<div id={el.title} key={i} className={'meal ' + meals[i].color}
 			onClick={onClick ? onClick.bind(this) : () => {
@@ -42,6 +31,8 @@ const MealRow: React.FC<MealRowProps> = ({el, i = 4, onClick, isActive}) => {
 				className={'mealBar ' + meals[i].color + ' ' + (isActive ? 'active' : 'closed')}>
 				<h3 className={'mealTitle'}>{meals[i].dishType}</h3>
 				<h3 className={'meal-title'}>{el.title}</h3>
+				{isActive && <Button text={'DEtails'} onClick={() => openRecipe(el)} size={'small'}
+					color={'opposite'}/>}
 			</div>
 			{isActive &&
                 <div className='meal-content'>

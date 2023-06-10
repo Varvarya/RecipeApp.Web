@@ -126,10 +126,40 @@ select {
   background-color: theme-color('light-pink');
 }
 
-input {
+table input {
   background-color: transparent;
   font-family: theme-fonts('text'), monospace;
   max-height: theme-sizes('big-icon-width');
   border-radius: 8px;
   border: none;
+}
+
+input {
+  background-color: theme-color('fair');
+  width: 100px;
+  font-family: theme-fonts('text'), monospace;
+  max-height: theme-sizes('big-icon-width');
+  border-radius: 8px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: theme-color('border');
+}
+
+.div-text {
+  font-family: theme-fonts('text'), monospace;
+  font-weight: theme-font-weights('h4');
+  font-size: theme-font-sizes('h4');
+  color: theme-color('text');
+  text-align: center;
+  cursor: default;
+  margin: 0;
+  text-wrap: avoid;
+  width: 60vw;
+}
+
+a {
+  font-family: theme-fonts('text'), monospace;
+  color: theme-color('primary');
+  text-align: center;
+  cursor: default;
 }

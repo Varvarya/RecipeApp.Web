@@ -13,16 +13,28 @@ import RoundButton from '../../components/roundButton';
 import './styles.scss';
 import GenerateInfo from './components/fieldsForGenerate';
 import {UserType} from '../../state/loginSlice/requestsModels';
+import {saveRecipeToStorage} from '../../state/recipes/actions';
 
 type MealPlansProps = {
     loading: boolean,
     mealPlans?: MealPlan[],
+    generated?: MealPlan,
     getUserMealPlans: any,
     generateMealPlan: any,
-    userInfo?: UserType
+    userInfo?: UserType,
+
+    saveRecipeToStorage: any,
 }
 
-const MealPlans: React.FC<MealPlansProps> = ({loading, mealPlans, getUserMealPlans, generateMealPlan, userInfo}) => {
+const MealPlans: React.FC<MealPlansProps> = ({
+	loading,
+	mealPlans,
+	getUserMealPlans,
+	generateMealPlan,
+	userInfo,
+	generated,
+	saveRecipeToStorage
+}) => {
 	const days = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
 	const [activeState, setActiveState] = useState({day: 0, plan: 0});
 
@@ -30,54 +42,62 @@ const MealPlans: React.FC<MealPlansProps> = ({loading, mealPlans, getUserMealPla
 		getUserMealPlans();
 	}, []);
 
-	const [modalState, setModalState] = useState({
-		visibility: false, values: [
-			{
-				name: 'MealPlanGenerationSecondsLimit',
-				value: 100,
-				step: 5,
-				type: 'number'
-			},
-			{
-				name: 'AcceptableMatchIngredientsPercentage',
-				value: 80,
-				step: 1,
-				type: 'number'
-			},
-			{
-				name: 'Calories',
-				value: 1500,
-				step: 50,
-				type: 'number'
-			},
-			{
-				name: 'Carbs',
-				value: 50,
-				step: 1,
-				type: 'number'
-			},
-			{
-				name: 'Fat',
-				value: 20,
-				step: 1,
-				type: 'number'
-			},
-			{
-				name: 'Protein',
-				value: 25,
-				step: 1,
-				type: 'number'
-			},
-			{
-				name: 'ConsiderIngredientsAmount',
-				value: false,
-				step: 1,
-				type: 'checkbox'
-			}
-		]
-	});
+	const [modalState, setModalState] = useState<{
+        visibility: boolean, values: {
+            name: string,
+            value: undefined | number | boolean,
+            step: number,
+            type: string
+        }[]
+    }>({
+    	visibility: false, values: [
+    		{
+    			name: 'MealPlanGenerationSecondsLimit',
+    			value: undefined,
+    			step: 5,
+    			type: 'number'
+    		},
+    		{
+    			name: 'AcceptableMatchIngredientsPercentage',
+    			value: undefined,
+    			step: 1,
+    			type: 'number'
+    		},
+    		{
+    			name: 'Calories',
+    			value: undefined,
+    			step: 50,
+    			type: 'number'
+    		},
+    		{
+    			name: 'Carbs',
+    			value: undefined,
+    			step: 1,
+    			type: 'number'
+    		},
+    		{
+    			name: 'Fat',
+    			value: undefined,
+    			step: 1,
+    			type: 'number'
+    		},
+    		{
+    			name: 'Protein',
+    			value: undefined,
+    			step: 1,
+    			type: 'number'
+    		},
+    		{
+    			name: 'ConsiderIngredientsAmount',
+    			value: undefined,
+    			step: 1,
+    			type: 'checkbox'
+    		}
+    	]
+    });
 
-	const changeValue = (name: string, value: number | boolean) => {
+	const changeValue = (name: string, value: number | boolean | undefined) => {
+		console.log('name ', name, 'value ', value);
 		const res = modalState.values;
 		res.map((el) => el.value = (el.name === name) ? value : el.value);
 		setModalState({...modalState, values: res});
@@ -107,7 +127,8 @@ const MealPlans: React.FC<MealPlansProps> = ({loading, mealPlans, getUserMealPla
 						color={(i === activeState.day) ? 'accent' : 'base'}/>)}
 				</div>
 				{(mealPlans && mealPlans[activeState.plan]) ? <div className='column'>
-					<MealsList plan={mealPlanForDays(mealPlans[activeState.plan])[activeState.day]}/>
+					<MealsList plan={mealPlanForDays(mealPlans[activeState.plan])[activeState.day]}
+						saveRecipeToStorage={saveRecipeToStorage}/>
 				</div> : <Loader/>}
 			</Window>
 		</div>
@@ -117,11 +138,13 @@ const mapStateToProps = ({mealPlan, login}: RootState) => ({
 	error: mealPlan.error,
 	loading: mealPlan.loading,
 	mealPlans: mealPlan.mealPlans,
+	generated: mealPlan.generated,
 	userInfo: login.user
 });
 const mapDispatchToProps = {
 	getUserMealPlans: getUserMealPlans,
-	generateMealPlan: generateMealPlan
+	generateMealPlan: generateMealPlan,
+	saveRecipeToStorage: saveRecipeToStorage
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MealPlans);

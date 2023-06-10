@@ -19,7 +19,7 @@ const mealPlanForDays = (mealPlan: MealPlan) => {
 const parseInfoForGeneration = (id: number, values: any) => {
 	const res = {
 		externalUserId: id,
-		MealPlanGenerationSecondsLimit: 100,
+		MealPlanGenerationSecondsLimit: undefined,
 		AcceptableMatchIngredientsPercentage: 0,
 		Calories: undefined,
 		Carbs: undefined,
@@ -27,6 +27,8 @@ const parseInfoForGeneration = (id: number, values: any) => {
 		Protein: undefined,
 		ConsiderIngredientsAmount: false
 	};
+
+	console.log(values);
 	values.forEach((el: any) => res[el.name] = el.value);
 
 	console.log(res);

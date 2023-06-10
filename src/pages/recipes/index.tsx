@@ -6,16 +6,20 @@ import Balancer from '../../components/balancer';
 import Button from '../../components/button';
 import {RootState} from '../../state/store';
 import {connect} from 'react-redux';
-import {filterRecipesAction} from '../../state/recipes/actions';
+import {filterRecipesAction, saveRecipeToStorage} from '../../state/recipes/actions';
 import {Recipe} from '../../state/recipes/requestsModels';
 import MealRow from '../meal_plan/components/meal';
+import {useHistory} from 'react-router-dom';
 
 type RecipesProps = {
     recipes?: Recipe[],
     getFilteredRecipes: any,
+    saveRecipeToStorage: any,
 }
 
-const Recipes: React.FC<RecipesProps> = ({recipes, getFilteredRecipes}) => {
+const Recipes: React.FC<RecipesProps> = ({recipes, getFilteredRecipes, saveRecipeToStorage}) => {
+	const history = useHistory();
+
 	const [params, setParams] = useState({
 		Title: '',
 		FromCalories: 0,
@@ -38,6 +42,11 @@ const Recipes: React.FC<RecipesProps> = ({recipes, getFilteredRecipes}) => {
 
 	const changeParam = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setParams({...params, [e.target.name]: e.target.value});
+	};
+
+	const chooseRecipe = (recipe: Recipe) => {
+		saveRecipeToStorage(recipe);
+		history.push('/recipe/' + recipe.id);
 	};
 
 	return (
@@ -83,7 +92,8 @@ const Recipes: React.FC<RecipesProps> = ({recipes, getFilteredRecipes}) => {
 				<Button text={'Find'} onClick={() => getFilteredRecipes(params)}/>
 				<div className='column'>
 					{recipes?.map((el, i) =>
-						<MealRow key={i} el={el} i={4} isActive={false} onClick={() => console.log(el.id)}/>)}
+						<MealRow key={i} el={el} i={4} isActive={false} onClick={() => chooseRecipe(el)}
+							saveRecipeToStorage={saveRecipeToStorage}/>)}
 				</div>
 			</Window>
 		</div>
@@ -95,6 +105,7 @@ const mapStateToProps = ({recipes}: RootState) => ({
 });
 const mapDispatchToProps = {
 	getFilteredRecipes: filterRecipesAction,
+	saveRecipeToStorage: saveRecipeToStorage
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Recipes);

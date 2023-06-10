@@ -13,12 +13,12 @@ type WindowProps = {
 
 const EditPopUp: React.FC<WindowProps> = ({title, fields, editFields, onClick, close}) => {
 	console.log(fields);
-	const displayedFields = Object.entries(fields).filter((e) => e[0] !== 'id' && typeof e[1] !== 'object');
+	const displayedFields = Object.entries(fields).filter((e) => e[0] !== 'id' && typeof e[1] !== 'object' && e[0] !== 'familyId');
 
 
 	return (
-		<div className='pop-up-container' onClick={undefined}>
-			<div className='pop-up-content' onClick={undefined}>
+		<div className='pop-up-container' onClick={close}>
+			<div className='pop-up-content' onClick={e => e.stopPropagation()}>
 				<div className='controls'/>
 				<div className='content-container'>
 					<h1>{title}</h1>

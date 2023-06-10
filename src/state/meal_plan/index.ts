@@ -58,6 +58,7 @@ export const mealPlanSlice = createSlice({
 			.addCase(generateMealPlan.fulfilled, (state, action: PayloadAction<MealPlan | void>) => {
 				state.status = APIStatus.FULFILLED;
 				state.generated = action.payload ? action.payload : undefined;
+				if (action.payload) state.mealPlans.push(action.payload);
 				state.loading = false;
 			})
 			.addCase(generateMealPlan.rejected, (state, action) => {
